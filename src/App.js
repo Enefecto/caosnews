@@ -2,12 +2,15 @@ import './App.css';
 import fondo1 from './assets/img/fondo1.jpg';
 import fondo2 from './assets/img/fondo2.jpg';
 import fondo3 from './assets/img/fondo3.jpg';
+import fondo4 from './assets/img/fondo4.jpg';
+import fondo5 from './assets/img/fondo5.jpg';
+import fondo6 from './assets/img/fondo6.jpg';
 
 function App() {
     return (
     <div className="App">
         {/* NavBar */}
-        <nav className="navbar">
+        <nav className="navbar navbar-top">
             <div className="container-fluid">
                 <span id="logo">Caos<span>News</span></span>
                 <button id='login'>
@@ -70,6 +73,111 @@ function App() {
             </button>
         </div>
         {/* Carousel */}
+        {/* News */}
+        <div className='conteiner-news'>
+            <div className='conteiner-flex'>
+                <div className='conteiner-search'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon  icon-tabler icon-tabler-search" width="35" height="35" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="10" cy="10" r="7" />
+                        <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                    <input id='search'/>
+                </div>
+                <div className='conteiner-filters'>
+                    <div className='selects'>
+                        <span>Periodista:</span>
+                        <select className='select'>
+                            <option>Ninguno</option>
+                            <option>Anderson Cooper</option>
+                            <option>Christiane Amanpour</option>
+                            <option>Rachel Maddow</option>
+                            <option>Lester Holt</option>
+                            <option>David Muir</option>
+                        </select>
+                    </div>
+                    <div className='selects'>
+                        <span>Categoria:</span>
+                        <select className='select'>
+                            <option>Ninguna</option>
+                            <option>Noticias nacionales</option>
+                            <option>Noticias internacionales</option>
+                            <option>Economía</option>
+                            <option>Política</option>
+                            <option>Ciencia y tecnología</option>
+                            <option>Entretenimiento</option>
+                            <option>Deportes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ul className='news'>
+                <li className='card'>
+                    <img className='img-card' src={fondo1} alt='fondo1'/>
+                    <div className='front-card'>
+                        <h2 className='card-title'>Titulo De La Noticia Numero 1</h2>
+                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Eligendi architecto minus corporis odit quo earum quia. 
+                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
+                            eveniet sit maiores necessitatibus porro error?</p>
+                    </div>
+                </li>
+                <li className='card'>
+                    <img className='img-card' src={fondo2} alt='fondo1'/>
+                    <div className='front-card'>
+                        <h2 className='card-title'>Titulo De La Noticia Numero 2</h2>
+                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Eligendi architecto minus corporis odit quo earum quia. 
+                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
+                            eveniet sit maiores necessitatibus porro error?</p>
+                    </div>
+                </li>
+                <li className='card'>
+                    <img className='img-card' src={fondo3} alt='fondo1'/>
+                    <div className='front-card'>
+                        <h2 className='card-title'>Titulo De La Noticia Numero 3</h2>
+                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Eligendi architecto minus corporis odit quo earum quia. 
+                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
+                            eveniet sit maiores necessitatibus porro error?</p>
+                    </div>
+                </li>
+                <li className='card'>
+                    <img className='img-card' src={fondo4} alt='fondo1'/>
+                    <div className='front-card'>
+                        <h2 className='card-title'>Titulo De La Noticia Numero 4</h2>
+                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Eligendi architecto minus corporis odit quo earum quia. 
+                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
+                            eveniet sit maiores necessitatibus porro error?</p>
+                    </div>
+                </li>
+                <li className='card'>
+                    <img className='img-card' src={fondo5} alt='fondo1'/>
+                    <div className='front-card'>
+                        <h2 className='card-title'>Titulo De La Noticia Numero 5</h2>
+                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Eligendi architecto minus corporis odit quo earum quia. 
+                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
+                            eveniet sit maiores necessitatibus porro error?</p>
+                    </div>
+                </li>
+                <li className='card'>
+                    <img className='img-card' src={fondo6} alt='fondo1'/>
+                    <div className='front-card'>
+                        <h2 className='card-title'>Titulo De La Noticia Numero 6</h2>
+                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Eligendi architecto minus corporis odit quo earum quia. 
+                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
+                            eveniet sit maiores necessitatibus porro error?</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        {/* News */}
+        {/* Contact */}
+
+        {/* Contact */}
     </div>
   );
 }
