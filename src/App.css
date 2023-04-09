@@ -162,6 +162,10 @@
 	background-color: var(--Beige);
 	outline: none;
 }
+::-webkit-input-placeholder {
+	color: var(--cafeClaro);
+	opacity: 1; 
+}
 .news{
 	width: 100%;
 	height: 100%;
