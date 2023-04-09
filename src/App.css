@@ -162,9 +162,8 @@
 	background-color: var(--Beige);
 	outline: none;
 }
-::-webkit-input-placeholder {
-	color: var(--cafeClaro);
-	opacity: 1; 
+#search::placeholder {
+	color: var(--cafeClaro); 
 }
 .news{
 	width: 100%;
