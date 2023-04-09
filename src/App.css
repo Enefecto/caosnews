@@ -2,10 +2,13 @@
 :root{
 	--cafeOscuro :#402522;
 	--cafeClaro: #412d2d;
-	--Naranja :#d16938; 
 	--Rosáce :#BC8F8F;
 	--Beige:#daaf6b; 
 	--white: white;
+	--gray: #2b2b2b;
+	--black: #1d1d1d;
+	--cian: #08fdd8;
+	--azul: #0e2f44;
 }
 *,*::before,*::after{
 	margin: 0;
@@ -49,7 +52,7 @@
 }
 #login:hover{
 	transform: translateY(-5px);
-	background-color: var(--Naranja);
+	background-color: var(--Beige);
 }
 /* Carousel */
 .carousel-item{
@@ -117,6 +120,7 @@
 	justify-content:space-around;
 	border-radius: 10px;
 	box-shadow: 0 20px 15px 0 rgba(0,0,0,.4);
+	background-color: var(--Beige);
 }
 .selects{
 	display: flex;
@@ -134,6 +138,9 @@
 	border-radius: 5px;
 	cursor: pointer;
 	font-size: 0.9rem;
+	background-color: var(--Beige);
+	outline: none;
+	cursor: pointer;
 }
 .conteiner-search{
 	width: 100%;
@@ -152,6 +159,8 @@
 	padding: 5px 5px 5px 45px;
 	font-size: 1.5rem;
 	box-shadow: 0 10px 10px 0 rgba(0,0,0,.4);
+	background-color: var(--Beige);
+	outline: none;
 }
 .news{
 	width: 100%;
@@ -188,7 +197,7 @@
 	padding: 10px;
 }
 .card-title{
-	color: #0e2f44;
+	color: var(--azul);
 	font-weight: bold;
 	font-size: 1.5rem;
 }
@@ -197,4 +206,78 @@
 	color: var(--cafeClaro);
 	font-style: italic;
 	font-size: 1rem;
+}
+/* Contact */
+.conteiner-contact{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	padding: 1rem;
+	background: linear-gradient(
+		var(--cafeClaro),
+		var(--black) 50%
+	);
+}
+.contact-title{
+	font-size: 3rem;
+	font-weight: bold;
+	color: var(--Beige);
+	cursor: default;
+}
+.contact{
+	width: 70rem;
+	height: 30rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+.contact-flex{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	gap: 5px;
+}
+#name, #email{
+	width: 50%;
+}
+@media (max-width: 768px) {
+	.contact-flex{
+		display: flex;
+		flex-direction: column;
+	}
+	#name, #email{
+		width: 100%;
+	}
+}
+#name, #email, #subject, #message, #submit{
+	padding: 1rem;
+	font-size: 1.5rem;
+	background-color: var(--gray);
+	border: none;
+	color: white;
+	outline: none;
+}
+#name:focus, #email:focus, #subject:focus, #message:focus{
+	border-bottom: 2px solid var(--Beige);
+}
+#subject{
+	width: 100%;
+}
+#message{
+	width: 100%;
+	min-height: 200px;
+}
+.contact-bottom{
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+#submit:hover{
+	transition: all 0.5s ease-in-out;
+	background-color: var(--Beige);
 }

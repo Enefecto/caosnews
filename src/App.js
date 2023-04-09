@@ -82,7 +82,7 @@ function App() {
                         <circle cx="10" cy="10" r="7" />
                         <line x1="21" y1="21" x2="15" y2="15" />
                     </svg>
-                    <input id='search'/>
+                    <input id='search' placeholder='Buscar'/>
                 </div>
                 <div className='conteiner-filters'>
                     <div className='selects'>
@@ -176,7 +176,20 @@ function App() {
         </div>
         {/* News */}
         {/* Contact */}
-
+        <div className='conteiner-contact'>
+            <h3 className='contact-title'>Contacto</h3>
+            <form className='contact'>
+                <div className='contact-flex'>
+                    <input id='name' type='text' placeholder='Nombre'/>
+                    <input id='email' type='email' placeholder='Gmail'/>
+                </div>
+                <input id='subject' type='text' placeholder='Asunto'/>
+                <textarea id='message' placeholder="Mensaje"></textarea>
+                <div className='contact-bottom'>
+                    <button id='submit' type='submit'>Enviar Mensaje</button>
+                </div>
+            </form>
+        </div>
         {/* Contact */}
     </div>
   );
