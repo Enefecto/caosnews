@@ -59,7 +59,7 @@
 	position: relative;
 	background-color: black;
 	width: 100%;
-	height: 80vh;
+	height: 90vh;
 }
 .img-item{
 	width: 100%;
@@ -136,7 +136,6 @@
 	width: 100%;	
 	padding: 10px;
 	border-radius: 5px;
-	cursor: pointer;
 	font-size: 0.9rem;
 	background-color: var(--Beige);
 	outline: none;
@@ -307,7 +306,7 @@
 }
 .login-form{
 	background-color: var(--Beige);
-	height: 550px;
+	height: 600px;
 	width: 100%;
 	max-width: 500px;
 	display: flex;
@@ -321,6 +320,7 @@
 }
 .login-form-title{
 	font-size: 3rem;
+	text-align: center;
 	cursor: default;
 	font-weight: bold;
 	color: white;
@@ -334,12 +334,12 @@
 .icon-in-input{
 	position: relative;
 }
-.icon-tabler-mail, .icon-tabler-lock{
+.icon-tabler-mail, .icon-tabler-lock, .icon-tabler-user{
 	position: absolute;
 	top: 20%;
 	left: 5px;
 }
-#login-email, #login-password{
+.login-user,.login-email, .login-password{
 	height: 60px;
 	width: 100%;
 	padding: 10px 10px 10px 50px;
@@ -348,14 +348,26 @@
 	border-radius: 5px;
 	outline: none;
 }
-#login-email:focus, #login-password:focus{
+.login-user:focus,.login-email:focus, .login-password:focus{
 	border-bottom: 2px solid var(--verde);
 }
 .flex-right{
 	width: 100%;
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: column;
+	align-items: flex-end;
 	margin-bottom: 1rem;
+	gap: 10px;
+}
+#type-user{
+	height: 50px;
+	width: 100%;
+	max-width: 150px;	
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1.4rem;
+	outline: none;
 }
 #loginButton{
 	border: none;
@@ -381,3 +393,11 @@
 .bottom-form #createAccount{
 	margin-left: 10px;
 }
+/* Create Account */
+.create-account-form{
+	height: 500px;
+}
+/* 	
+	Todos los demas estilos se
+	sacaron del login 
+*/

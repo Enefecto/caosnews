@@ -1,18 +1,23 @@
 import React from 'react'
 
-const Login = ({setdisplayCreateAccount,setdisplayLogin}) => {
+const CreateAccount = () => {
+    
 
-    const activateCreateAccount = () => {
-        setdisplayLogin(false);
-        setdisplayCreateAccount(true);
-    }
-
+    
     return (
     <div className='background-login'>
     <div className='conteiner-login'>
-        <form className='login-form'>
-            <h1 className='login-form-title'>Bienvenido</h1>
+        <div className='login-form create-account-form'>
+            <h1 className='login-form-title'>Crear Cuenta</h1>
             <div className='top-form'>
+                <div className='icon-in-input'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-user" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    </svg>
+                    <input className='login-user' type="email" placeholder='Nombre'/>    
+                </div>
                 <div className='icon-in-input'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-mail" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -36,18 +41,13 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin}) => {
                         <option>Periodista</option>
                         <option>Admin</option>
                     </select>
-                    <span id='forgotPassword'>¿Has Olvidado Tu Contraseña?</span>
                 </div>
-                <button id='loginButton' type='submit'>Ingresar</button>
+                <button id='loginButton' type='submit'>Crear Cuenta</button>
             </div>
-            <div className='bottom-form'>
-                <span>¿No Tienes Una Cuenta?
-                    <span id='createAccount' onClick={activateCreateAccount}>Crear Cuenta</span>
-                </span>
-            </div>
-        </form>
+        </div>
     </div>
     </div>
   )
 }
-export default Login;
+
+export default CreateAccount;
