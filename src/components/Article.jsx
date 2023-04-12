@@ -7,12 +7,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage}) => {
         setDisplayArticle(false);
         setDisplayMainPage(true);
     }
-    // La historia entera*
-    // Titulo*
-    // Autor*
-    // La Fecha*
-    // Ubicacion
-    // Categoria a la que pertenece
+
     return (
     <div className='article-conteiner'>
         <header className='header-article'>Titulo De La Noticia Numero 1</header>
@@ -41,7 +36,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                     <div className='bottom-columna-article'>
-                        <span className='ubicacion-article'>Varas 666</span>
+                        <span className='ubicacion-article'>Antonio Varas 666, Providencia</span>
                         <span className='categoria-article'>Noticias Nacionales</span>
                     </div>
                 </div>
