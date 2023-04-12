@@ -106,6 +106,7 @@
 	background-color: black;
 	width: 100%;
 	height: 90vh;
+	cursor: pointer;
 }
 .img-item{
 	width: 100%;
@@ -230,6 +231,11 @@
     width: 100%;
 	border: none;
 	height: 100%;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+.card:hover{
+	transform: translateY(-10px);
 }
 .img-card{
 	width: 100%;
@@ -454,3 +460,123 @@
 	Todos los demas estilos se
 	sacaron del login 
 */
+
+/* Article */
+.article-conteiner{
+	height: 100vh;
+	width: 100vw;
+	background-color: var(--cafeOscuro);
+}
+.header-article{
+	height: 100px;
+	width: 100%;
+	background-color: var(--Beige);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2.5rem;
+	font-weight: bold;
+	text-align: center;
+}
+.main-article{
+	height: calc(100vh - 200px);
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.row-article{
+	height: 100%;
+	width: 95%;
+	display: flex;
+	align-items: center;
+	gap: 50px;
+}
+.columnas-article{
+	height: 100%;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+@media (max-width: 1000px) {
+	.row-article{
+		flex-direction: column;
+		margin-top: 20px;
+		gap: 20px;
+	}
+	.columnas-article{
+		width: 100%;
+	}
+	.columna-1{
+		height: 35%;
+	}
+	.columna-2{
+		height: 65%;
+	}
+}
+.imagen-article{
+	height: 90%;
+	width: 100%;
+	max-width: 1000px;
+	object-fit: cover;
+	background-position: bottom;
+}
+.top-columna-article, .bottom-columna-article{
+	width: 100%;
+	height: 10%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: var(--Beige);
+	border-bottom: 5px solid var(--Beige) ;
+}
+.bottom-columna-article{
+	color: var(--white);
+}
+.title-article{
+	font-size: 1.8rem;
+	font-weight: bold;
+}
+.parrafo-article{
+	color: var(--white);
+	font-size: 1.2rem;
+	text-align: justify;
+	line-height: 2.5rem;
+}
+@media (max-width: 850px) {
+	.parrafo-article{
+		line-height: 1.8rem;
+	}
+}
+.fecha-article, .ubicacion-article{
+	font-size: 1rem;
+	font-style: italic;
+}
+.footer-article{
+	height: 100px;
+	width: 100%;
+	background-color: var(--cafeClaro);
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.button-article{
+	margin-left: 20px;
+	height: 60px;
+	width: 130px;
+	padding: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--verde);
+	transition: all 0.3s ease-in-out;
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.button-article:hover{
+	background-color: var(--Beige);
+	color: white;
+}

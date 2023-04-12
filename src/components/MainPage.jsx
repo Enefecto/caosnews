@@ -8,7 +8,7 @@ import fondo4 from '../assets/img/fondo4.jpg';
 import fondo5 from '../assets/img/fondo5.jpg';
 import fondo6 from '../assets/img/fondo6.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayArticle}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
@@ -17,6 +17,11 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
     const activateLogin = () => {
         setDisplayMainPage(false);
         setdisplayLogin(true);
+    }
+
+    const activateArticle = () => {
+        setDisplayMainPage(false);
+        setDisplayArticle(true);
     }
 
     useEffect(() => {
@@ -67,7 +72,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
         {/* Carousel */}
         <div id="carouselExampleFade" className="carousel slide carousel-fade">
             <div className="carousel-inner">
-                <div className="carousel-item active">
+                <div className="carousel-item active" onClick={activateArticle}>
                     <img className='img-item' src={fondo1} alt='fondo1'/>
                     <div className='front-item'>
                         <h2 className='item-title'>Titulo De La Noticia Numero 1</h2>
@@ -77,7 +82,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </div>
-                <div className="carousel-item">
+                <div className="carousel-item" onClick={activateArticle}>
                     <img className='img-item' src={fondo2} alt='fondo2'/>
                     <div className='front-item'>
                         <h2 className='item-title'>Titulo De La Noticia Numero 2</h2>
@@ -87,7 +92,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </div>
-                <div className="carousel-item">
+                <div className="carousel-item" onClick={activateArticle}>
                     <img className='img-item' src={fondo3} alt='fondo3'/>
                     <div className='front-item'>
                         <h2 className='item-title'>Titulo De La Noticia Numero 3</h2>
@@ -147,7 +152,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                 </div>
             </div>
             <ul className='news'>
-                <li className='card'>
+                <li className='card' onClick={activateArticle}>
                     <img className='img-card' src={fondo1} alt='fondo1'/>
                     <div className='front-card'>
                         <h2 className='card-title'>Titulo De La Noticia Numero 1</h2>
@@ -157,7 +162,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </li>
-                <li className='card'>
+                <li className='card' onClick={activateArticle}>
                     <img className='img-card' src={fondo2} alt='fondo1'/>
                     <div className='front-card'>
                         <h2 className='card-title'>Titulo De La Noticia Numero 2</h2>
@@ -167,7 +172,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </li>
-                <li className='card'>
+                <li className='card' onClick={activateArticle}>
                     <img className='img-card' src={fondo3} alt='fondo1'/>
                     <div className='front-card'>
                         <h2 className='card-title'>Titulo De La Noticia Numero 3</h2>
@@ -177,7 +182,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </li>
-                <li className='card'>
+                <li className='card' onClick={activateArticle}>
                     <img className='img-card' src={fondo4} alt='fondo1'/>
                     <div className='front-card'>
                         <h2 className='card-title'>Titulo De La Noticia Numero 4</h2>
@@ -187,7 +192,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </li>
-                <li className='card'>
+                <li className='card' onClick={activateArticle}>
                     <img className='img-card' src={fondo5} alt='fondo1'/>
                     <div className='front-card'>
                         <h2 className='card-title'>Titulo De La Noticia Numero 5</h2>
@@ -197,7 +202,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user}) => {
                             eveniet sit maiores necessitatibus porro error?</p>
                     </div>
                 </li>
-                <li className='card'>
+                <li className='card' onClick={activateArticle}>
                     <img className='img-card' src={fondo6} alt='fondo1'/>
                     <div className='front-card'>
                         <h2 className='card-title'>Titulo De La Noticia Numero 6</h2>

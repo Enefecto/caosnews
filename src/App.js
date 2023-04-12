@@ -3,6 +3,7 @@ import './App.css';
 import MainPage from './components/MainPage.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
+import Article from './components/Article';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     const [displayMainPage, setDisplayMainPage] = useState(true);   
     const [displayLogin, setdisplayLogin] = useState(false);
     const [displayCreateAccount, setdisplayCreateAccount] = useState(false);
+    const [displayArticle, setDisplayArticle] = useState(false);
 
     //¿Usuario logeado?
     const [sessionStarted, setSesionStarted] = useState(false);
@@ -21,7 +23,15 @@ function App() {
             <MainPage   setDisplayMainPage={setDisplayMainPage}
                         setdisplayLogin={setdisplayLogin}
                         sessionStarted={sessionStarted}
-                        user={user}/>
+                        user={user}
+                        setDisplayArticle={setDisplayArticle}/>
+        </>
+        );
+    } else if (displayArticle){
+        return (
+        <>
+            <Article    setDisplayArticle={setDisplayArticle}
+                        setDisplayMainPage={setDisplayMainPage}/>
         </>
         );
     } else if (displayLogin){
