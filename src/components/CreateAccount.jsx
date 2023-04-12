@@ -83,7 +83,7 @@ const CreateAccount = ({setdisplayLogin,setdisplayCreateAccount}) => {
                 <div className='flex-right'>
                     <select id="createAccountType" name='type'>
                         <option value='User'>Usuario</option>
-                        <option value='journalist'>Periodista</option>
+                        <option value='Journalist'>Periodista</option>
                         <option value='Admin'>Admin</option>
                     </select>
                 </div>
