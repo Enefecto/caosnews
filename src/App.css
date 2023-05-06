@@ -578,7 +578,7 @@
 	border: none;
 	border-radius: 10px;
 	background-color: var(--Beige);
-	transition: all 0.3s ease-in-out;
+	transition: all 0.1s ease-in-out;
 	font-size: 1.5rem;
 	display: flex;
 	align-items: center;
@@ -587,4 +587,124 @@
 .button-article:hover{
 	background-color: var(--verde);
 	color: white;
+}
+.button-article:hover .icon-tabler-arrow-back{
+	stroke: white;
+}
+/* FORM JOURNALIST */
+
+.form-journalist {
+	background-color: var(--cafeOscuro);
+	color: white;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 600px;
+	padding: 20px;
+	border-radius: 20px;
+	font-size: 1.25rem;
+}
+.form-journalist h1{
+	text-align: center;
+	padding-bottom: 5px;
+	border-bottom: 1px solid white;
+}
+.journalist-label {
+	display: block;
+	margin-top: 5px;
+}
+
+.form-journalist input[type="text"],
+.form-journalist #numero,
+.form-journalist select,
+.form-journalist textarea {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	border: none;
+	border-radius: 3px;
+	font-size: 16px;
+}
+.conteiner-inputs-form{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 15px 0;
+}
+.conteiner-radios{
+	width: 30%;
+	display: flex;
+	justify-content: center;
+	margin-top: 1.8rem;
+}
+@media (max-width: 400px) {
+	.conteiner-radios{
+		display: flex;
+		flex-direction: column;	
+	}
+	
+}
+.conteiner-inputs-form .radio{
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	gap: 5px;
+}
+.form-journalist input[type="date"],
+.form-journalist select {
+	padding: 10px;
+}
+
+.form-journalist textarea {
+	height: 200px;
+	resize: vertical;
+}
+
+#journalist-form {
+	display: block;
+	background-color: var(--Beige);
+	color: black;
+	padding: 10px;
+	margin-top: 20px;
+	border: none;
+	border-radius: 3px;
+	font-size: 20px;
+	cursor: pointer;
+}
+.conteiner-submit-journalist{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.conteiner-submit-journalist div{
+	display: flex;
+	gap: 5px;
+}
+#day, #night, #urgent{
+	height: 20px;
+	width: 20px;
+	margin-top: 3px;
+}
+.back{
+	position: absolute;
+	bottom: 1rem;
+	left: 1rem;
+	height: 50px;
+	width: 130px;
+	padding: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--Beige);
+	transition: all 0.1s ease-in-out;
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.back:hover, #journalist-form:hover{
+	background-color: var(--verde);
+	color: white;
+}
+.back:hover .icon-tabler-arrow-back{
+	stroke: white;
 }

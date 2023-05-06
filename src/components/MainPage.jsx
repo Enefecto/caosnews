@@ -8,7 +8,7 @@ import fondo4 from '../assets/img/fondo4.jpg';
 import fondo5 from '../assets/img/fondo5.jpg';
 import fondo6 from '../assets/img/fondo6.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayArticle}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayArticle,setDisplayForm}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
@@ -22,6 +22,11 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
     const activateArticle = () => {
         setDisplayMainPage(false);
         setDisplayArticle(true);
+    }
+
+    const activateFormJournalist = () => {
+        setDisplayMainPage(false);
+        setDisplayForm(true);
     }
 
     useEffect(() => {
@@ -47,7 +52,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                 <div className='conteiner-buttons-users'>
                     <div className='buttons-extra'>
                         {buttonAdmin ? <button className='button-extra'>Administrar</button> : ''}
-                        {buttonStory ? <button className='button-extra'>Publicar</button> : ''}
+                        {buttonStory ? <button className='button-extra' onClick={activateFormJournalist}>Publicar</button> : ''}
                     </div>
                     <div className='accounts'>
                         <span className='usuario-name'>{sessionStarted ? user[0].name : ''}</span>

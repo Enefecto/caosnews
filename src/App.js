@@ -4,6 +4,7 @@ import MainPage from './components/MainPage.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
 import Article from './components/Article';
+import FormJournalist from './components/FormJournalist';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     const [displayLogin, setdisplayLogin] = useState(false);
     const [displayCreateAccount, setdisplayCreateAccount] = useState(false);
     const [displayArticle, setDisplayArticle] = useState(false);
+    const [displayForm, setDisplayForm] = useState(false);
 
     //¿Usuario logeado?
     const [sessionStarted, setSesionStarted] = useState(false);
@@ -24,7 +26,8 @@ function App() {
                         setdisplayLogin={setdisplayLogin}
                         sessionStarted={sessionStarted}
                         user={user}
-                        setDisplayArticle={setDisplayArticle}/>
+                        setDisplayArticle={setDisplayArticle}
+                        setDisplayForm={setDisplayForm}/>
         </>
         );
     } else if (displayArticle){
@@ -49,6 +52,13 @@ function App() {
         <>
             <CreateAccount  setdisplayLogin={setdisplayLogin}
                             setdisplayCreateAccount={setdisplayCreateAccount}/>
+        </>
+        );
+    } else if (displayForm){
+        return (
+        <>
+            <FormJournalist setDisplayMainPage={setDisplayMainPage}
+                            setDisplayForm={setDisplayForm}/>
         </>
         );
     }
