@@ -1,62 +1,59 @@
 import React, {useState} from 'react'
+import { SaveStorage } from './SaveStorage';
 
-const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSesionStarted,setUser}) => {
+export const CreateAccountAdmin = () => {
 
     const [errorLogin, setErrorLogin] = useState('');
 
-    const activateCreateAccount = () => {
-        setdisplayLogin(false);
-        setdisplayCreateAccount(true);
-    }
-
-    const tryLogin = (e) => {
+    const getData = (e) => {
         e.preventDefault();
 
         // Obtener previos registros de usuarios
         let storage = JSON.parse(localStorage.getItem('users'));
-
-        //Guardar temporalmente al usuario para validar login
+        
+        // Crear nuevo usuario temporalmente
         let tempUser = {
+            id: new Date().getTime(),
+			name: e.target.createAccountUser.value,
 			email: e.target.createAccountEmail.value,
             password: e.target.createAccountPassword.value,
             type: e.target.createAccountType.value
 		};
-        
+
+
+        // Validar si el usuario existe o no y agregarlo o negarlo.
         if (!storage){
-            setErrorLogin('No hay usuarios registrados.');
+            SaveStorage('users',tempUser);
+            //Cerrar CreateAccount
         } else {
             let coincidences = storage.filter( user => {
-                return  user.email === tempUser.email
-                        && user.password === tempUser.password
-                        && user.type === tempUser.type;
+                return user.email === tempUser.email;
             });
-            if (coincidences.length === 1){
+            
+            if (coincidences.length === 0){
+                // Save in localStorage
+                SaveStorage('users',tempUser);
+
                 setErrorLogin('');
-                //Dar iniciada la sesion
-                setSesionStarted(true); 
-                setUser(coincidences);
-                //Volver a la pantalla principal
-                setdisplayLogin(false);
-                setDisplayMainPage(true);
             } else {
-                setErrorLogin('Gmail o contraseña incorrecto.');
+                setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
             }
         }
-
-
-    }
-
-    const backMainPage = () => {
-        setdisplayLogin(false);
-        setDisplayMainPage(true);
     }
 
     return (
-    <div className='background-login'>
-    <div className='conteiner-general'>
-        <form className='login-form' onSubmit={tryLogin}>
-            <h1 className='login-form-title'>Bienvenido</h1>
+        <form className='login-form create-account-form' onSubmit={getData}>
+            <h1 className='login-form-title'>Crear Cuenta</h1>
             <div className='top-form'>
+                <div className='icon-in-input'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-user" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    </svg>
+                    <input  className='login-user' type="text" placeholder='Nombre'
+                            id='createAccountUser' name='user' autoComplete='off'/>
+                </div>
                 <div className='icon-in-input'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-mail" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -64,7 +61,7 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSe
                         <polyline points="3 7 12 13 21 7" />
                     </svg>
                     <input  className='login-email' type="email" placeholder='Correo Electronico'
-                            id='createAccountEmail'/>    
+                            id='createAccountEmail' name='email' autoComplete='off'/>    
                 </div>
                 <div className='icon-in-input'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-lock" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -74,34 +71,18 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSe
                         <path d="M8 11v-4a4 4 0 0 1 8 0v4" />
                     </svg>
                     <input  className='login-password' type="password" placeholder='Contraseña'
-                            id='createAccountPassword'/>
+                            id='createAccountPassword' name='password' autoComplete='off'/>
                 </div>
                 <div className='flex-right'>
-                    <select id="createAccountType">
+                    <select id="createAccountType" name='type'>
                         <option value='User'>Usuario</option>
                         <option value='Journalist'>Periodista</option>
                         <option value='Admin'>Admin</option>
                     </select>
-                    <span id='forgotPassword'>¿Has Olvidado Tu Contraseña?</span>
                 </div>
-                <button id='loginButton' type='submit'>Ingresar</button>
                 <span className='error-message'>{errorLogin ? errorLogin : ''}</span>
-            </div>
-            <div className='bottom-form'>
-                <span>¿No Tienes Una Cuenta?
-                    <span id='createAccount' onClick={activateCreateAccount}>Crear Cuenta</span>
-                </span>
+                <button id='loginButton' type='submit'>Crear Cuenta</button>
             </div>
         </form>
-        <button className='back' onClick={backMainPage}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-back" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
-                </svg>
-                Volver
-        </button>
-    </div>
-    </div>
-  )
+    )
 }
-export default Login;

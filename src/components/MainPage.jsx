@@ -8,7 +8,7 @@ import fondo4 from '../assets/img/fondo4.jpg';
 import fondo5 from '../assets/img/fondo5.jpg';
 import fondo6 from '../assets/img/fondo6.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayArticle,setDisplayForm}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
@@ -27,6 +27,11 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
     const activateFormJournalist = () => {
         setDisplayMainPage(false);
         setDisplayForm(true);
+    }
+
+    const activateAdminPage = () => {
+        setDisplayMainPage(false);
+        setDisplayAdminPage(true);
     }
 
     useEffect(() => {
@@ -51,7 +56,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                 <span id="logo">Caos<span>News</span></span>
                 <div className='conteiner-buttons-users'>
                     <div className='buttons-extra'>
-                        {buttonAdmin ? <button className='button-extra'>Administrar</button> : ''}
+                        {buttonAdmin ? <button className='button-extra' onClick={activateAdminPage}>Administrar</button> : ''}
                         {buttonStory ? <button className='button-extra' onClick={activateFormJournalist}>Publicar</button> : ''}
                     </div>
                     <div className='accounts'>

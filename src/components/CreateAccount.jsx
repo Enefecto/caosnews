@@ -53,7 +53,7 @@ const CreateAccount = ({setdisplayLogin,setdisplayCreateAccount}) => {
 
     return (
     <div className='background-login'>
-    <div className='conteiner-login'>
+    <div className='conteiner-general'>
         <form className='login-form create-account-form' onSubmit={getData}>
             <h1 className='login-form-title'>Crear Cuenta</h1>
             <div className='top-form'>

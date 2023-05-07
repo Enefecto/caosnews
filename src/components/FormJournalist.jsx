@@ -9,7 +9,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm}) => {
 
     return (
         <div className='background-login'>
-        <div className='conteiner-login'>
+        <div className='conteiner-general'>
         <div className="form-journalist">
             <h1>Nueva Noticia</h1>
             <form>
