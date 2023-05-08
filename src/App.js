@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import MainPage from './components/MainPage.jsx';
 import Login from './components/Login.jsx';
@@ -6,6 +6,7 @@ import CreateAccount from './components/CreateAccount.jsx';
 import Article from './components/Article';
 import FormJournalist from './components/FormJournalist';
 import AdminPage from './components/AdminPage';
+import { SaveStorage } from './components/SaveStorage';
 
 function App() {
 
@@ -20,6 +21,21 @@ function App() {
     //¿Usuario logeado?
     const [sessionStarted, setSesionStarted] = useState(false);
     const [user, setUser] = useState({});
+
+
+    useEffect(() => {
+        let storage = JSON.parse(localStorage.getItem('users'));
+        if (!storage){
+            let tempUser = {
+                id: new Date().getTime(),
+                name: 'Admin',
+                email: 'admin@gmail.com',
+                password: '123',
+                type: 'Admin'
+            };
+            SaveStorage('users',tempUser);
+        }
+    },[])
 
     if (displayMainPage){
         return (

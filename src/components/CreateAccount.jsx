@@ -17,7 +17,7 @@ const CreateAccount = ({setdisplayLogin,setdisplayCreateAccount}) => {
 			name: e.target.createAccountUser.value,
 			email: e.target.createAccountEmail.value,
             password: e.target.createAccountPassword.value,
-            type: e.target.createAccountType.value
+            type: 'User'
 		};
 
         // Validar si el usuario existe o no y agregarlo o negarlo.
@@ -84,13 +84,6 @@ const CreateAccount = ({setdisplayLogin,setdisplayCreateAccount}) => {
                     </svg>
                     <input  className='login-password' type="password" placeholder='Contraseña'
                             id='createAccountPassword' name='password' autoComplete='off'/>
-                </div>
-                <div className='flex-right'>
-                    <select id="createAccountType" name='type'>
-                        <option value='User'>Usuario</option>
-                        <option value='Journalist'>Periodista</option>
-                        <option value='Admin'>Admin</option>
-                    </select>
                 </div>
                 <span className='error-message'>{errorLogin ? errorLogin : ''}</span>
                 <button id='loginButton' type='submit'>Crear Cuenta</button>

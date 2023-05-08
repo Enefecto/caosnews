@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { CreateAccountAdmin } from './CreateAccountAdmin';
+import CreateAccountAdmin from './CreateAccountAdmin';
+import ManagePosts from './ManagePosts';
 
 const AdminPage = ({setDisplayMainPage,setDisplayAdminPage}) => {
     
-    const [displayCreateAccountAdmin, setDisplayCreateAccountAdmin] = useState(false);
+    const [displayManagePosts, setDisplayManagePosts] = useState(true);
 
     const backMainPage = () => {
         setDisplayAdminPage(false);
@@ -11,7 +12,11 @@ const AdminPage = ({setDisplayMainPage,setDisplayAdminPage}) => {
     }
     
     const activateAccount = () => {
-        setDisplayCreateAccountAdmin(true);
+        setDisplayManagePosts(false);
+    }
+
+    const activateManagePosts = () => {
+        setDisplayManagePosts(true);
     }
 
     return (
@@ -21,11 +26,11 @@ const AdminPage = ({setDisplayMainPage,setDisplayAdminPage}) => {
 
         <div className="administration">
             <div className="control-panel">
-                <button>Administrar Publicaciones</button>
+                <button onClick={activateManagePosts}>Administrar Publicaciones</button>
                 <button onClick={activateAccount}>Crear Cuenta</button>
             </div>
             <div className="principal-content">
-                {displayCreateAccountAdmin ? <CreateAccountAdmin/> : ''}
+                {displayManagePosts ? <ManagePosts/> : <CreateAccountAdmin/>}
                 
             </div>
         </div>

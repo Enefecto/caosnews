@@ -456,6 +456,13 @@
 	font-size: 1.2rem;
 	font-style: italic;
 }
+.successful-message{
+	width: 100%;
+	text-align: center;
+	color: green;
+	font-size: 1.2rem;
+	font-style: italic;
+}
 /* 	
 	Todos los demas estilos se
 	sacaron del login 
@@ -714,6 +721,8 @@
 	max-width: 1200px;
 	height: 85vh;
 	background-color: var(--Beige);
+	border-radius: 10px;
+	box-shadow: 0 20px 15px 0 rgba(0,0,0,.4);
 }
 .control-panel{
 	width: 100%;
@@ -738,4 +747,87 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+/* MANAGE POSTS */
+.conteiner-manage{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+.manage-top{
+	width: 100%;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 5px solid var(--azul);
+}
+.manage-top h2{
+	font-size: 2rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: var(--azul);
+	text-align: center;
+}
+.manage-posts{
+	margin-top: 10px;
+	width: 100%;
+	height: 87%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 15px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right: 15px;
+	scrollbar-width: thin;
+    scrollbar-color: var(--green) var(--azul);
+}
+
+.manage-posts::-webkit-scrollbar{
+    width: 15px;
+}
+
+.manage-posts::-webkit-scrollbar-thumb{
+    background-color: var(--green);
+    border-radius: 5px;
+	border: 2px solid var(--azul);
+}
+
+.post{
+	list-style: none;
+	width: 100%;
+	height: 200px;
+	border-radius: 10px;
+	box-shadow: 0 15px 15px 0 rgba(0,0,0,.4);
+	background-color: var(--green);
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 30px 10px 10px 10px;
+	cursor: pointer;
+}
+#post-tittle{
+	font-size: 2.5rem;
+	color: var(--white);
+	text-align: center;
+}
+.post-bottom{
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 10px;
+	color: var(--white);
+	font-size: 1.2rem;
+	text-align: center;
+}
+#urgent-state{
+	color: rgb(155, 0, 0);
 }

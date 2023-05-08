@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
 import { SaveStorage } from './SaveStorage';
 
-export const CreateAccountAdmin = () => {
+const CreateAccountAdmin = () => {
 
     const [errorLogin, setErrorLogin] = useState('');
+    const [successfulLogin, setSuccessfulLogin] = useState('');
 
     const getData = (e) => {
         e.preventDefault();
@@ -35,8 +36,14 @@ export const CreateAccountAdmin = () => {
                 SaveStorage('users',tempUser);
 
                 setErrorLogin('');
+                setSuccessfulLogin('Cuenta Creada exitosamente');
+                e.target.createAccountUser.value = '';
+                e.target.createAccountEmail.value = '';
+                e.target.createAccountPassword.value = '';
             } else {
+                setSuccessfulLogin('');
                 setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
+                e.target.createAccountEmail.value = '';
             }
         }
     }
@@ -81,8 +88,11 @@ export const CreateAccountAdmin = () => {
                     </select>
                 </div>
                 <span className='error-message'>{errorLogin ? errorLogin : ''}</span>
+                <span className='successful-message'>{successfulLogin ? successfulLogin : ''}</span>
                 <button id='loginButton' type='submit'>Crear Cuenta</button>
             </div>
         </form>
     )
 }
+
+export default CreateAccountAdmin;
