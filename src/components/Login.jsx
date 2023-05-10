@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { validateEmail } from './Validaciones';
 
 const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSesionStarted,setUser}) => {
 
@@ -22,25 +23,29 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSe
             type: e.target.createAccountType.value
 		};
         
-        if (!storage){
-            setErrorLogin('No hay usuarios registrados.');
-        } else {
-            let coincidences = storage.filter( user => {
-                return  user.email === tempUser.email
-                        && user.password === tempUser.password
-                        && user.type === tempUser.type;
-            });
-            if (coincidences.length === 1){
-                setErrorLogin('');
-                //Dar iniciada la sesion
-                setSesionStarted(true); 
-                setUser(coincidences);
-                //Volver a la pantalla principal
-                setdisplayLogin(false);
-                setDisplayMainPage(true);
+        if (validateEmail(tempUser.email)  && tempUser.password.length > 0 ){
+            if (!storage){
+                setErrorLogin('No hay usuarios registrados.');
             } else {
-                setErrorLogin('Gmail o contraseña incorrecto.');
+                let coincidences = storage.filter( user => {
+                    return  user.email === tempUser.email
+                            && user.password === tempUser.password
+                            && user.type === tempUser.type;
+                });
+                if (coincidences.length === 1){
+                    setErrorLogin('');
+                    //Dar iniciada la sesion
+                    setSesionStarted(true); 
+                    setUser(coincidences);
+                    //Volver a la pantalla principal
+                    setdisplayLogin(false);
+                    setDisplayMainPage(true);
+                } else {
+                    setErrorLogin('Gmail o contraseña incorrecto.');
+                }
             }
+        } else {
+            setErrorLogin('Ingrese correctamente los datos');
         }
 
 

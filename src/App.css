@@ -302,7 +302,7 @@
 	gap: 5px;
 }
 #name, #email{
-	width: 50%;
+	width: 100%;
 }
 @media (max-width: 768px) {
 	.contact-flex{
@@ -312,6 +312,12 @@
 	#name, #email{
 		width: 100%;
 	}
+}
+.input-flex{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 #name, #email, #subject, #message, #submit{
 	padding: 1rem;

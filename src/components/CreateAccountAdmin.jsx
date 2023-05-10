@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { SaveStorage } from './SaveStorage';
+import { validateEmail } from './Validaciones';
 
 const CreateAccountAdmin = () => {
 
@@ -21,30 +22,33 @@ const CreateAccountAdmin = () => {
             type: e.target.createAccountType.value
 		};
 
-
-        // Validar si el usuario existe o no y agregarlo o negarlo.
-        if (!storage){
-            SaveStorage('users',tempUser);
-            //Cerrar CreateAccount
-        } else {
-            let coincidences = storage.filter( user => {
-                return user.email === tempUser.email;
-            });
-            
-            if (coincidences.length === 0){
-                // Save in localStorage
+        if (tempUser.name.length > 0 && validateEmail(tempUser.email) && tempUser.password.length > 0){
+            // Validar si el usuario existe o no y agregarlo o negarlo.
+            if (!storage){
                 SaveStorage('users',tempUser);
-
-                setErrorLogin('');
-                setSuccessfulLogin('Cuenta Creada exitosamente');
-                e.target.createAccountUser.value = '';
-                e.target.createAccountEmail.value = '';
-                e.target.createAccountPassword.value = '';
+                //Cerrar CreateAccount
             } else {
-                setSuccessfulLogin('');
-                setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
-                e.target.createAccountEmail.value = '';
+                let coincidences = storage.filter( user => {
+                    return user.email === tempUser.email;
+                });
+                
+                if (coincidences.length === 0){
+                    // Save in localStorage
+                    SaveStorage('users',tempUser);
+
+                    setErrorLogin('');
+                    setSuccessfulLogin('Cuenta Creada exitosamente');
+                    e.target.createAccountUser.value = '';
+                    e.target.createAccountEmail.value = '';
+                    e.target.createAccountPassword.value = '';
+                } else {
+                    setSuccessfulLogin('');
+                    setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
+                    e.target.createAccountEmail.value = '';
+                }
             }
+        } else {
+            setErrorLogin('Ingrese correctamente los datos');
         }
     }
 

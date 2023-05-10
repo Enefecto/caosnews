@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { SaveStorage } from './SaveStorage';
+import { validateEmail } from './Validaciones';
 
 const CreateAccount = ({setdisplayLogin,setdisplayCreateAccount}) => {
     
@@ -20,30 +21,36 @@ const CreateAccount = ({setdisplayLogin,setdisplayCreateAccount}) => {
             type: 'User'
 		};
 
-        // Validar si el usuario existe o no y agregarlo o negarlo.
-        if (!storage){
-            SaveStorage('users',tempUser);
-            //Cerrar CreateAccount
-            setdisplayCreateAccount(false);
-            setdisplayLogin(true);
-        } else {
-            let coincidences = storage.filter( user => {
-                return user.email === tempUser.email;
-            });
-            
-            if (coincidences.length === 0){
-                // Save in localStorage
+        if (tempUser.name.length > 0 && validateEmail(tempUser.email) && tempUser.password.length > 0 ){
+            // Validar si el usuario existe o no y agregarlo o negarlo.
+
+            if (!storage){
                 SaveStorage('users',tempUser);
-
-                setErrorLogin('');
-
                 //Cerrar CreateAccount
                 setdisplayCreateAccount(false);
                 setdisplayLogin(true);
             } else {
-                setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
+                let coincidences = storage.filter( user => {
+                    return user.email === tempUser.email;
+                });
+                
+                if (coincidences.length === 0){
+                    // Save in localStorage
+                    SaveStorage('users',tempUser);
+    
+                    setErrorLogin('');
+    
+                    //Cerrar CreateAccount
+                    setdisplayCreateAccount(false);
+                    setdisplayLogin(true);
+                } else {
+                    setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
+                }
             }
+        } else {
+            setErrorLogin('Ingrese correctamente los datos');
         }
+
     }
     
     const backMainPage = () => {
