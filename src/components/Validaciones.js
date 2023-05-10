@@ -4,6 +4,11 @@ const validateEmail = (correo) => {
     return expresionRegular.test(correo);
 }
 
+const validatePhoneNumber = (phone) => {
+    let expresionRegular = /^(?:\+|\d)[\d-]{8,}$/;
+    return expresionRegular.test(phone); 
+}
+  
   
 
-export {validateEmail};
+export {validateEmail, validatePhoneNumber};
