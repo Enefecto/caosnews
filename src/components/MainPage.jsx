@@ -8,7 +8,7 @@ import fondo4 from '../assets/img/fondo4.jpg';
 import fondo5 from '../assets/img/fondo5.jpg';
 import fondo6 from '../assets/img/fondo6.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
@@ -16,6 +16,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
     const [formName, setFormName] = useState(0);
     const [formEmail, setFormEmail] = useState(0);
     const [formSubject, setFormSubject] = useState(0);
+
 
     const activateLogin = () => {
         setDisplayMainPage(false);
@@ -49,7 +50,12 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                 setButtonStory(true);
             }
         }
-    },[sessionStarted, user])
+
+        //Setear Periodistas
+        let storage = JSON.parse(localStorage.getItem('users'));
+        let filteredJournalists = storage.filter(user => user.type === 'Journalist');
+        setListJournalist(filteredJournalists);
+    },[sessionStarted, user,setListJournalist])
 
     const processGmail = (e) => {
         e.preventDefault();
@@ -184,12 +190,15 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                         <span>Periodista:</span>
                         <select className='select'>
                             <option>Ninguno</option>
-                            <option>Anderson Cooper</option>
-                            <option>Christiane Amanpour</option>
-                            <option>Rachel Maddow</option>
-                            <option>Lester Holt</option>
-                            <option>David Muir</option>
+                            {
+                            listJournalist ? listJournalist.map((jour) => (
+                                <option key={jour.id}>{jour.name}</option>
+                            ))
+                            :
+                            ''
+                            }
                         </select>
+                        
                     </div>
                     <div className='selects'>
                         <span>Categoria:</span>

@@ -22,16 +22,28 @@ function App() {
     const [sessionStarted, setSesionStarted] = useState(false);
     const [user, setUser] = useState({});
 
+    //Periodistas
+    const [listJournalist, setListJournalist] = useState([]);
 
     useEffect(() => {
         let storage = JSON.parse(localStorage.getItem('users'));
         if (!storage){
+            //Admin
             let tempUser = {
                 id: new Date().getTime(),
                 name: 'Admin',
                 email: 'admin@gmail.com',
                 password: '123',
                 type: 'Admin'
+            };
+            SaveStorage('users',tempUser);
+            //Periodista
+            tempUser = {
+                id: new Date().getTime(),
+                name: 'Pancho Saavedra',
+                email: 'periodista@gmail.com',
+                password: '123',
+                type: 'Journalist'
             };
             SaveStorage('users',tempUser);
         }
@@ -46,7 +58,9 @@ function App() {
                         user={user}
                         setDisplayArticle={setDisplayArticle}
                         setDisplayForm={setDisplayForm}
-                        setDisplayAdminPage={setDisplayAdminPage}/>
+                        setDisplayAdminPage={setDisplayAdminPage}
+                        listJournalist={listJournalist}
+                        setListJournalist={setListJournalist}/>
         </>
         );
     } else if (displayArticle){
@@ -77,7 +91,8 @@ function App() {
         return (
         <>
             <FormJournalist setDisplayMainPage={setDisplayMainPage}
-                            setDisplayForm={setDisplayForm}/>
+                            setDisplayForm={setDisplayForm}
+                            listJournalist={listJournalist}/>
         </>
         );
     } else if (displayAdminPage){

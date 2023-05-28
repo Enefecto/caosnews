@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { validatePhoneNumber } from './Validaciones';
 
-const FormJournalist = ({setDisplayMainPage,setDisplayForm}) => {
+const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
 
     const [postNumber, setPostNumber] = useState(0);
 
@@ -45,13 +45,15 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm}) => {
                 <input type="text" id="titulo" name="titulo" required/>
 
                 <label className='journalist-label' htmlFor="autor">Autor</label>
-                <select id="autor" name="autor">
-                    <option value="">Ninguno</option>
-                    <option value="Anderson Cooper">Anderson Cooper</option>
-                    <option value="Christiane Amanpour">Christiane Amanpour</option>
-                    <option value="Rachel Maddow">Rachel Maddow</option>
-                    <option value="Lester Holt">Lester Holt</option>
-                    <option value="David Muir">David Muir</option>
+                <select id='autor' name='autor'>
+                    <option>Ninguno</option>
+                    {
+                    listJournalist ? listJournalist.map((jour) => (
+                        <option key={jour.id}>{jour.name}</option>
+                    ))
+                    :
+                    ''
+                    }
                 </select>
 
                 <label className='journalist-label' htmlFor="numero">Numero</label>
