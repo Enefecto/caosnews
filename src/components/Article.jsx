@@ -1,16 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import fondo3 from '../assets/img/fondo3.jpg';
 
-const Article = ({setDisplayArticle,setDisplayMainPage}) => {
+const Article = ({setDisplayArticle,setDisplayMainPage,postId}) => {
     
     const returnMainPage = () => {
         setDisplayArticle(false);
         setDisplayMainPage(true);
     }
 
+    //Articulo que se visualizara
+    const [post, setPost] = useState([]);
+
+    useEffect(() => {
+        //Obtener los posts
+        let posts = JSON.parse(localStorage.getItem('posts'));
+        console.log(posts);
+        console.log(postId);
+
+        if (posts){
+            let postFiltered = posts.filter(post => post.id === postId);
+            setPost(postFiltered[0]);
+        }
+    },[setPost,postId])
+
     return (
     <div className='article-conteiner'>
-        <header className='header-article'>Titulo De La Noticia Numero 1</header>
+        <header className='header-article'>{post.title}</header>
         <main className='main-article'>
             <div className='row-article'>
                 <div className='columnas-article columna-1'>
@@ -18,26 +33,15 @@ const Article = ({setDisplayArticle,setDisplayMainPage}) => {
                 </div>
                 <div className='columnas-article columna-2'>
                     <div className='top-columna-article'>
-                        <h2 className='title-article'>Autor De La Noticia</h2>
-                        <span className='fecha-article'>12/05/2010</span>
+                        <h2 className='title-article'>{post.author}</h2>
+                        <span className='fecha-article'>{post.date}</span>
                     </div>
                     <div className='mid-columna-article'>
-                        <p className='parrafo-article'>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
+                        <p className='parrafo-article'>{post.text}</p>
                     </div>
                     <div className='bottom-columna-article'>
-                        <span className='ubicacion-article'>Antonio Varas 666, Providencia</span>
-                        <span className='categoria-article'>Noticias Nacionales</span>
+                        <span className='ubicacion-article'>{post.direction}</span>
+                        <span className='categoria-article'>{post.type}</span>
                     </div>
                 </div>
             </div>

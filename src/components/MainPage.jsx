@@ -4,11 +4,8 @@ import { validateEmail } from './Validaciones';
 import fondo1 from '../assets/img/fondo1.jpg';
 import fondo2 from '../assets/img/fondo2.jpg';
 import fondo3 from '../assets/img/fondo3.jpg';
-import fondo4 from '../assets/img/fondo4.jpg';
-import fondo5 from '../assets/img/fondo5.jpg';
-import fondo6 from '../assets/img/fondo6.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
@@ -23,7 +20,8 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
         setdisplayLogin(true);
     }
 
-    const activateArticle = () => {
+    const activateArticle = (id) => {
+        setPostId(id);
         setDisplayMainPage(false);
         setDisplayArticle(true);
     }
@@ -51,11 +49,19 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             }
         }
 
+        
         //Setear Periodistas
         let storage = JSON.parse(localStorage.getItem('users'));
-        let filteredJournalists = storage.filter(user => user.type === 'Journalist');
-        setListJournalist(filteredJournalists);
-    },[sessionStarted, user,setListJournalist])
+        if (storage){
+            let filteredJournalists = storage.filter(user => user.type === 'Journalist');
+            setListJournalist(filteredJournalists);
+        }
+
+        //Setear Posts
+        let posts = JSON.parse(localStorage.getItem('posts'));
+        setPosts(posts);
+
+    },[sessionStarted, user,setListJournalist,setPosts])
 
     const processGmail = (e) => {
         e.preventDefault();
@@ -216,66 +222,20 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                 </div>
             </div>
             <ul className='news'>
-                <li className='card' onClick={activateArticle}>
-                    <img className='img-card' src={fondo1} alt='fondo1'/>
-                    <div className='front-card'>
-                        <h2 className='card-title'>Titulo De La Noticia Numero 1</h2>
-                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </li>
-                <li className='card' onClick={activateArticle}>
-                    <img className='img-card' src={fondo2} alt='fondo1'/>
-                    <div className='front-card'>
-                        <h2 className='card-title'>Titulo De La Noticia Numero 2</h2>
-                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </li>
-                <li className='card' onClick={activateArticle}>
-                    <img className='img-card' src={fondo3} alt='fondo1'/>
-                    <div className='front-card'>
-                        <h2 className='card-title'>Titulo De La Noticia Numero 3</h2>
-                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </li>
-                <li className='card' onClick={activateArticle}>
-                    <img className='img-card' src={fondo4} alt='fondo1'/>
-                    <div className='front-card'>
-                        <h2 className='card-title'>Titulo De La Noticia Numero 4</h2>
-                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </li>
-                <li className='card' onClick={activateArticle}>
-                    <img className='img-card' src={fondo5} alt='fondo1'/>
-                    <div className='front-card'>
-                        <h2 className='card-title'>Titulo De La Noticia Numero 5</h2>
-                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </li>
-                <li className='card' onClick={activateArticle}>
-                    <img className='img-card' src={fondo6} alt='fondo1'/>
-                    <div className='front-card'>
-                        <h2 className='card-title'>Titulo De La Noticia Numero 6</h2>
-                        <p className='card-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </li>
+                {
+                    posts ? posts.map((post) => (
+                        <li key={post.id} className='card' onClick={() => activateArticle(post.id)}>
+                            <img className='img-card' src={fondo1} alt='fondo1'/>
+                            <div className='front-card'>
+                                <h2 className='card-title'>{post.title}</h2>
+                                <p className='card-p'>{post.text}</p>
+                            </div>
+                        </li>
+                    ))
+                    :
+                    <span id='No-posts'>No hay noticias :(</span>
+                }
+
             </ul>
         </div>
         {/* News */}

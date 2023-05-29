@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { validatePhoneNumber } from './Validaciones';
 import { SaveStorage } from './SaveStorage';
 
-const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
+const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPosts}) => {
 
     const [postNumber, setPostNumber] = useState(0);
 
@@ -24,14 +24,25 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
             text: e.target.texto.value,
             direction: e.target.direccion.value,
             type: e.target.tipo.value,
-            urgent: e.target.urgent.checked
+            urgent: e.target.urgent.checked,
+            state: false
         } 
 
         
         if (validatePhoneNumber(tempPost.phone)){
             setPostNumber(1);
             alert('Solicitud enviada correctamente');
+
             SaveStorage('posts',tempPost);
+
+            setPosts(posts => {
+                if (posts){
+                    return [tempPost, ...posts]
+                } else {
+                    return [tempPost];
+                }
+            });
+
             setPostNumber(3);
 
             e.target.titulo.value = '';
