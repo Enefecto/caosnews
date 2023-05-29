@@ -189,7 +189,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                     <div className='selects'>
                         <span>Periodista:</span>
                         <select className='select'>
-                            <option>Ninguno</option>
+                            <option>Anonimo</option>
                             {
                             listJournalist ? listJournalist.map((jour) => (
                                 <option key={jour.id}>{jour.name}</option>

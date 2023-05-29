@@ -25,6 +25,7 @@ function App() {
     //Periodistas
     const [listJournalist, setListJournalist] = useState([]);
 
+
     useEffect(() => {
         let storage = JSON.parse(localStorage.getItem('users'));
         if (!storage){

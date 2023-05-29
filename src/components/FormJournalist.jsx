@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { validatePhoneNumber } from './Validaciones';
+import { SaveStorage } from './SaveStorage';
 
 const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
 
@@ -11,26 +12,38 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
     }
 
     const getPost = (e) => {
-
+        e.preventDefault();
         const tempPost = {
+            id: new Date().getTime(),
             title: e.target.titulo.value,
             author: e.target.autor.value,
             phone: e.target.numero.value,
             date: e.target.fecha.value,
-            day: e.target.day.value,
-            night: e.target.night.value,
+            day: e.target.day.checked,
+            night: e.target.night.checked,
             text: e.target.texto.value,
             direction: e.target.direccion.value,
             type: e.target.tipo.value,
-            urgent: e.target.urgent.value
+            urgent: e.target.urgent.checked
         } 
 
-        console.log(tempPost);
-
+        
         if (validatePhoneNumber(tempPost.phone)){
             setPostNumber(1);
             alert('Solicitud enviada correctamente');
+            SaveStorage('posts',tempPost);
             setPostNumber(3);
+
+            e.target.titulo.value = '';
+            e.target.autor.value = '';
+            e.target.numero.value = '';
+            e.target.texto.value = '';
+            e.target.day.checked = false;
+            e.target.night.checked = false;
+            e.target.fecha.value = '';
+            e.target.direccion.value = '';
+            e.target.tipo.value = '';
+            e.target.urgent.checked = false;
         } else {
             setPostNumber(2);
         }
@@ -46,7 +59,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
 
                 <label className='journalist-label' htmlFor="autor">Autor</label>
                 <select id='autor' name='autor'>
-                    <option>Ninguno</option>
+                    <option value="">Anonimo</option>
                     {
                     listJournalist ? listJournalist.map((jour) => (
                         <option key={jour.id}>{jour.name}</option>
@@ -61,13 +74,13 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
                     <input type="number" id="numero" name="numero" required/>
                     {
                             postNumber === 1 ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#00b341" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M5 12l5 5l10 -10" />
                                 </svg>
                             )
                             : postNumber === 2 ?
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff4500" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ff4500" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <line x1="18" y1="6" x2="6" y2="18" />
                                 <line x1="6" y1="6" x2="18" y2="18" />
@@ -100,7 +113,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
 
                 <label className='journalist-label' htmlFor="tipo">Tipo de Noticia</label>
                 <select id="tipo" name="tipo">
-                    <option value="">Ninguno</option>
+                    <option disabled value="">Ninguna</option>
                     <option value="Noticias nacionales">Noticias nacionales</option>
                     <option value="Noticias internacionales">Noticias internacionales</option>
                     <option value="Economía">Economía</option>
