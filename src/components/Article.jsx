@@ -1,24 +1,57 @@
 import React, { useEffect, useState } from 'react'
 import fondo3 from '../assets/img/fondo3.jpg';
 
-const Article = ({setDisplayArticle,setDisplayMainPage,postId}) => {
+const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postId,status,setStatus,setPosts}) => {
     
     const returnMainPage = () => {
         setDisplayArticle(false);
         setDisplayMainPage(true);
+        setStatus(false);
     }
+
+    const buttonApprove = () => {
+        setPosts(prevPosts => {
+            const updatedPosts = prevPosts.map(item => {
+            if (item.id === postId) {
+                return { ...item, state: true };
+            }
+            return item;
+        });
+      
+        localStorage.setItem('posts', JSON.stringify(updatedPosts));
+      
+        return updatedPosts;
+        });
+        setDisplayArticle(false);
+        setDisplayAdminPage(true);
+    };
+      
+    const buttonDecline = () => {
+        setPosts(prevPosts => {
+            const updatedPosts = prevPosts.map(item => {
+            if (item.id === postId) {
+                return { ...item, state: false };
+            }
+            return item;
+        });
+      
+        localStorage.setItem('posts', JSON.stringify(updatedPosts));
+      
+        return updatedPosts;
+        });
+        setDisplayArticle(false);
+        setDisplayAdminPage(true);
+    };
 
     //Articulo que se visualizara
     const [post, setPost] = useState([]);
 
     useEffect(() => {
         //Obtener los posts
-        let posts = JSON.parse(localStorage.getItem('posts'));
-        console.log(posts);
-        console.log(postId);
+        let storagePosts = JSON.parse(localStorage.getItem('posts'));
 
-        if (posts){
-            let postFiltered = posts.filter(post => post.id === postId);
+        if (storagePosts){
+            let postFiltered = storagePosts.filter(post => post.id === postId);
             setPost(postFiltered[0]);
         }
     },[setPost,postId])
@@ -53,7 +86,12 @@ const Article = ({setDisplayArticle,setDisplayMainPage,postId}) => {
                     <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
                 </svg>
                 Volver
-                </button>
+            </button>
+            <div className="buttonsDecision">
+                {status ? <button onClick={buttonApprove} id='button-aprove'>Aprobar</button> : ''}
+                {status ? <button onClick={buttonDecline} id='button-decline'>Rechazar</button> : ''}
+
+            </div>
         </footer>
     </div>
   )

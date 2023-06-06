@@ -8,6 +8,7 @@
 	--gray: #2b2b2b;
 	--black: #1d1d1d;
 	--green: #037248;
+	--red: #720300;
 	--azul: #0e2f44;
 }
 *,*::before,*::after{
@@ -21,7 +22,7 @@
 	}
 	
 }
-@media (max-width: 450px) {
+@media (max-width: 500px) {
 	html{
 		font-size: 70%;
 	}
@@ -488,7 +489,7 @@
 	background-color: var(--cafeOscuro);
 }
 .header-article{
-	height: 100px;
+	height: 80px;
 	width: 100%;
 	background-color: var(--Beige);
 	display: flex;
@@ -583,11 +584,11 @@
 	font-style: italic;
 }
 .footer-article{
-	height: 100px;
+	height: 120px;
 	width: 100%;
 	background-color: var(--cafeClaro);
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-between;
 	align-items: center;
 }
 .button-article{
@@ -604,12 +605,47 @@
 	align-items: center;
 	justify-content: space-between;
 }
-.button-article:hover{
+.button-article:hover,
+#button-aprove:hover{
 	background-color: var(--green);
+	color: white;
+}
+#button-decline:hover{
+	background-color: var(--red);
 	color: white;
 }
 .button-article:hover .icon-tabler-arrow-back{
 	stroke: white;
+}
+.buttonsDecision{
+	width: 270px;
+	margin-right: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+#button-aprove, #button-decline{
+	height: 50px;
+	width: 130px;
+	padding: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--Beige);
+	transition: all 0.1s ease-in-out;
+	font-size: 1.3rem;
+}
+@media (max-width: 500px) {
+	.footer-article{
+		height: 120px;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+	.button-article{
+		margin-left: 0px;
+	}
+	.buttonsDecision{
+		margin-right: 0px;
+	}
 }
 /* FORM JOURNALIST */
 

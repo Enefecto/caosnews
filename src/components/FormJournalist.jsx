@@ -107,11 +107,11 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPos
                     <div className="conteiner-radios">
                         <div className='radio'>
                             <input type="radio" name="day-night" id="day" required/>
-                            <label htmlFor="day-night">Día</label>
+                            <label >Día</label>
                         </div>
                         <div className='radio'>
                             <input type="radio" name="day-night" id="night" required />
-                            <label htmlFor="day-night">Noche</label>
+                            <label >Noche</label>
                         </div>
                     </div>
                 </div>

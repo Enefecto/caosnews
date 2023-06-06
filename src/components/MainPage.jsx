@@ -223,7 +223,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             </div>
             <ul className='news'>
                 {
-                    posts ? posts.map((post) => (
+                    posts ? posts.filter((post) => post.state).map((post) => (
                         <li key={post.id} className='card' onClick={() => activateArticle(post.id)}>
                             <img className='img-card' src={fondo1} alt='fondo1'/>
                             <div className='front-card'>
@@ -233,7 +233,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                         </li>
                     ))
                     :
-                    <span id='No-posts'>No hay noticias :(</span>
+                    <span id='No-posts'>No hay noticias</span>
                 }
 
             </ul>

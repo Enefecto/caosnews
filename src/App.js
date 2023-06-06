@@ -25,9 +25,11 @@ function App() {
     //Periodistas
     const [listJournalist, setListJournalist] = useState([]);
 
-    //Post and postId
+    //Post, PostId, Status
     const [posts,setPosts] = useState([]);
     const [postId, setPostId] = useState(0);
+    const [status, setStatus] =  useState(false);
+
 
     useEffect(() => {
         let storage = JSON.parse(localStorage.getItem('users'));
@@ -75,7 +77,11 @@ function App() {
         <>
             <Article    setDisplayArticle={setDisplayArticle}
                         setDisplayMainPage={setDisplayMainPage}
-                        postId={postId}/>
+                        setDisplayAdminPage={setDisplayAdminPage}
+                        postId={postId}
+                        status={status}
+                        setStatus={setStatus}
+                        setPosts={setPosts}/>
         </>
         );
     } else if (displayLogin){
@@ -107,8 +113,13 @@ function App() {
     } else if (displayAdminPage){
         return (
         <>
-            <AdminPage setDisplayMainPage={setDisplayMainPage}
-                            setDisplayAdminPage={setDisplayAdminPage}/>
+            <AdminPage  setDisplayMainPage={setDisplayMainPage}
+                        setDisplayAdminPage={setDisplayAdminPage}
+                        setDisplayArticle={setDisplayArticle}
+                        posts={posts}
+                        setPosts={setPosts}
+                        setPostId={setPostId}
+                        setStatus={setStatus}/>
         </>
         );
     }

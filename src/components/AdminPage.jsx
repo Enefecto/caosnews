@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import CreateAccountAdmin from './CreateAccountAdmin';
 import ManagePosts from './ManagePosts';
 
-const AdminPage = ({setDisplayMainPage,setDisplayAdminPage}) => {
+const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,posts,setPostId,setStatus,setDisplayArticle}) => {
     
     const [displayManagePosts, setDisplayManagePosts] = useState(true);
 
@@ -30,7 +30,12 @@ const AdminPage = ({setDisplayMainPage,setDisplayAdminPage}) => {
                 <button onClick={activateAccount}>Crear Cuenta</button>
             </div>
             <div className="principal-content">
-                {displayManagePosts ? <ManagePosts/> : <CreateAccountAdmin/>}
+                {displayManagePosts ? <ManagePosts  posts={posts}
+                                                    setPostId={setPostId}
+                                                    setStatus={setStatus}
+                                                    setDisplayAdminPage={setDisplayAdminPage}
+                                                    setDisplayArticle={setDisplayArticle}/> 
+                            : <CreateAccountAdmin/>}
                 
             </div>
         </div>
