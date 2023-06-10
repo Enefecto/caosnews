@@ -22,6 +22,9 @@ function App() {
     const [sessionStarted, setSesionStarted] = useState(false);
     const [user, setUser] = useState({});
 
+    //Es admin?
+    const [buttonAdmin, setButtonAdmin] = useState(false);
+
     //Periodistas
     const [listJournalist, setListJournalist] = useState([]);
 
@@ -69,7 +72,9 @@ function App() {
                         setListJournalist={setListJournalist}
                         posts={posts}
                         setPosts={setPosts}
-                        setPostId={setPostId}/>
+                        setPostId={setPostId}
+                        buttonAdmin={buttonAdmin}
+                        setButtonAdmin={setButtonAdmin}/>
         </>
         );
     } else if (displayArticle){
@@ -81,7 +86,8 @@ function App() {
                         postId={postId}
                         status={status}
                         setStatus={setStatus}
-                        setPosts={setPosts}/>
+                        setPosts={setPosts}
+                        buttonAdmin={buttonAdmin}/>
         </>
         );
     } else if (displayLogin){

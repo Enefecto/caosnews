@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import fondo3 from '../assets/img/fondo3.jpg';
 
-const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postId,status,setStatus,setPosts}) => {
+const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postId,status,setStatus,setPosts,buttonAdmin}) => {
     
     const returnMainPage = () => {
         setDisplayArticle(false);
@@ -24,38 +24,60 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
         });
         setDisplayArticle(false);
         setDisplayAdminPage(true);
+        setStatus(false);
     };
       
     const buttonDecline = () => {
         setPosts(prevPosts => {
             const updatedPosts = prevPosts.map(item => {
-            if (item.id === postId) {
-                return { ...item, state: false };
-            }
-            return item;
-        });
+                if (item.id === postId) {
+                    return { ...item, state: false };
+                }
+                return item;
+            });
       
-        localStorage.setItem('posts', JSON.stringify(updatedPosts));
+            localStorage.setItem('posts', JSON.stringify(updatedPosts));
       
-        return updatedPosts;
+            return updatedPosts;
         });
+
         setDisplayArticle(false);
         setDisplayAdminPage(true);
+        setStatus(false);
     };
 
+    const buttonDelete = () => {
+        setPosts(prevPosts => {
+
+            let updatedPosts = prevPosts.map(item => (item.id !== postId ? item : null)).filter(Boolean);
+
+            if(!updatedPosts[0]){
+                updatedPosts = [];
+                localStorage.setItem('posts', JSON.stringify(updatedPosts));
+                return updatedPosts;
+            }
+            localStorage.setItem('posts', JSON.stringify(updatedPosts));
+            return updatedPosts;
+        });
+
+        
+        setDisplayArticle(false);
+        setDisplayMainPage(true);
+    };
+    
     //Articulo que se visualizara
     const [post, setPost] = useState([]);
-
+    
     useEffect(() => {
         //Obtener los posts
         let storagePosts = JSON.parse(localStorage.getItem('posts'));
-
+        
         if (storagePosts){
             let postFiltered = storagePosts.filter(post => post.id === postId);
             setPost(postFiltered[0]);
         }
     },[setPost,postId])
-
+    
     return (
     <div className='article-conteiner'>
         <header className='header-article'>{post.title}</header>
@@ -90,7 +112,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
             <div className="buttonsDecision">
                 {status ? <button onClick={buttonApprove} id='button-aprove'>Aprobar</button> : ''}
                 {status ? <button onClick={buttonDecline} id='button-decline'>Rechazar</button> : ''}
-
+                {status ? '' : buttonAdmin ? <button onClick={buttonDelete} id='button-decline'>Eliminar</button> : ''}
             </div>
         </footer>
     </div>

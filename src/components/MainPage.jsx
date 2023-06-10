@@ -5,11 +5,10 @@ import fondo1 from '../assets/img/fondo1.jpg';
 import fondo2 from '../assets/img/fondo2.jpg';
 import fondo3 from '../assets/img/fondo3.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
-    const [buttonAdmin, setButtonAdmin] = useState(false);
     const [formName, setFormName] = useState(0);
     const [formEmail, setFormEmail] = useState(0);
     const [formSubject, setFormSubject] = useState(0);
@@ -61,7 +60,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
         let posts = JSON.parse(localStorage.getItem('posts'));
         setPosts(posts);
 
-    },[sessionStarted, user,setListJournalist,setPosts])
+    },[sessionStarted, user,setListJournalist,setPosts,setButtonAdmin])
 
     const processGmail = (e) => {
         e.preventDefault();
@@ -223,7 +222,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             </div>
             <ul className='news'>
                 {
-                    posts ? posts.filter((post) => post.state).map((post) => (
+                    posts.length > 0 ? posts.filter((post) => post.state).map((post) => (
                         <li key={post.id} className='card' onClick={() => activateArticle(post.id)}>
                             <img className='img-card' src={fondo1} alt='fondo1'/>
                             <div className='front-card'>
