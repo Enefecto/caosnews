@@ -63,7 +63,9 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
         let posts = JSON.parse(localStorage.getItem('posts'));
         setPosts(posts);
 
-        setAvailablePosts(posts.filter((post) => post.state));
+        if (posts){
+            setAvailablePosts(posts.filter((post) => post.state));
+        }
 
     },[sessionStarted, user,setListJournalist,setPosts,setButtonAdmin])
 
@@ -172,7 +174,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                         </div>
                     ))
                     :
-                    <div className="carousel-item active" onClick={activateArticle}>
+                    <div className="carousel-item active">
                         <img className='img-item' src={fondo0} alt='fondo1'/>
                         <div className='front-item'>
                             <h2 className='item-title'>No hay noticias aún</h2>
