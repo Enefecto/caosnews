@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import fondo3 from '../assets/img/fondo3.jpg';
+
+import fondo1 from '../assets/img/NoticiasInternacionales.jpg';
+import fondo2 from '../assets/img/CienciaYTecnologia.jpg';
+import fondo3 from '../assets/img/Entretenimiento.jpg';
+import fondo4 from '../assets/img/Deporte.jpg';
 
 const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postId,status,setStatus,setPosts,buttonAdmin}) => {
     
@@ -65,6 +69,22 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
         setDisplayMainPage(true);
     };
     
+    const getPostBackground = (type) => {
+
+        switch (type) {
+            case 'Noticias Internacionales':
+                return fondo1;
+            case 'Ciencia y Tecnología':
+                return fondo2;
+            case 'Entretenimiento':
+                return fondo3;
+            case 'Deportes':
+                return fondo4;
+            default:
+                return fondo1;
+        }
+    }
+
     //Articulo que se visualizara
     const [post, setPost] = useState([]);
     
@@ -84,7 +104,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
         <main className='main-article'>
             <div className='row-article'>
                 <div className='columnas-article columna-1'>
-                    <img className='imagen-article' src={fondo3} alt="Fondo1"/>
+                    <img className='imagen-article' src={getPostBackground(post.type)} alt="Fondo1"/>
                 </div>
                 <div className='columnas-article columna-2'>
                     <div className='top-columna-article'>

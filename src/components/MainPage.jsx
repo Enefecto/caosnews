@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { validateEmail } from './Validaciones';
 // Images
-import fondo1 from '../assets/img/fondo1.jpg';
-import fondo2 from '../assets/img/fondo2.jpg';
-import fondo3 from '../assets/img/fondo3.jpg';
+import fondo0 from '../assets/img/Waiting.jpg';
+import fondo1 from '../assets/img/NoticiasInternacionales.jpg';
+import fondo2 from '../assets/img/CienciaYTecnologia.jpg';
+import fondo3 from '../assets/img/Entretenimiento.jpg';
+import fondo4 from '../assets/img/Deporte.jpg';
 
 const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin}) => {
 
@@ -13,6 +15,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
     const [formEmail, setFormEmail] = useState(0);
     const [formSubject, setFormSubject] = useState(0);
 
+    const [availablePosts, setAvailablePosts] = useState([]);
 
     const activateLogin = () => {
         setDisplayMainPage(false);
@@ -60,6 +63,8 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
         let posts = JSON.parse(localStorage.getItem('posts'));
         setPosts(posts);
 
+        setAvailablePosts(posts.filter((post) => post.state));
+
     },[sessionStarted, user,setListJournalist,setPosts,setButtonAdmin])
 
     const processGmail = (e) => {
@@ -104,6 +109,24 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
 
     }
 
+    const getPostBackground = (type) => {
+
+        switch (type) {
+            case 'Ninguna':
+                return fondo0
+            case 'Noticias Internacionales':
+                return fondo1;
+            case 'Ciencia y Tecnología':
+                return fondo2;
+            case 'Entretenimiento':
+                return fondo3;
+            case 'Deportes':
+                return fondo4;
+            default:
+                return fondo0;
+        }
+    }
+
     return (
     <div>
         {/* NavBar */}
@@ -138,36 +161,25 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
         {/* Carousel */}
         <div id="carouselExampleFade" className="carousel slide carousel-fade">
             <div className="carousel-inner">
-                <div className="carousel-item active" onClick={activateArticle}>
-                    <img className='img-item' src={fondo1} alt='fondo1'/>
-                    <div className='front-item'>
-                        <h2 className='item-title'>Titulo De La Noticia Numero 1</h2>
-                        <p className='item-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
+                {
+                    availablePosts.length > 0 ? availablePosts.map((post) => (
+                        <div key={post.id} className="carousel-item active" onClick={() => activateArticle(post.id)}>
+                            <img className='img-item' src={getPostBackground(post.type)} alt='fondo1'/>
+                            <div className='front-item'>
+                                <h2 className='item-title'>{post.title}</h2>
+                                <p className='item-p'>{post.text}</p>
+                            </div>
+                        </div>
+                    ))
+                    :
+                    <div className="carousel-item active" onClick={activateArticle}>
+                        <img className='img-item' src={fondo0} alt='fondo1'/>
+                        <div className='front-item'>
+                            <h2 className='item-title'>No hay noticias aún</h2>
+                            <p className='item-p'>Todo esta calmado, muy calmado...</p>
+                        </div>
                     </div>
-                </div>
-                <div className="carousel-item" onClick={activateArticle}>
-                    <img className='img-item' src={fondo2} alt='fondo2'/>
-                    <div className='front-item'>
-                        <h2 className='item-title'>Titulo De La Noticia Numero 2</h2>
-                        <p className='item-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </div>
-                <div className="carousel-item" onClick={activateArticle}>
-                    <img className='img-item' src={fondo3} alt='fondo3'/>
-                    <div className='front-item'>
-                        <h2 className='item-title'>Titulo De La Noticia Numero 3</h2>
-                        <p className='item-p'> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Eligendi architecto minus corporis odit quo earum quia. 
-                            Quae, tenetur saepe accusantium sed, sapiente, fuga odit 
-                            eveniet sit maiores necessitatibus porro error?</p>
-                    </div>
-                </div>
+                }
             </div>
             <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -208,23 +220,20 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                     <div className='selects'>
                         <span>Categoria:</span>
                         <select className='select'>
-                            <option>Ninguna</option>
-                            <option>Noticias nacionales</option>
-                            <option>Noticias internacionales</option>
-                            <option>Economía</option>
-                            <option>Política</option>
-                            <option>Ciencia y tecnología</option>
-                            <option>Entretenimiento</option>
-                            <option>Deportes</option>
+                            <option value='Ninguna'>Ninguna</option>
+                            <option value='Noticias Internacionales'>Noticias Internacionales</option>
+                            <option value='Ciencia y Tecnología'>Ciencia y Tecnología</option>
+                            <option value='Entretenimiento'>Entretenimiento</option>
+                            <option value='Deportes'>Deportes</option>
                         </select>
                     </div>
                 </div>
             </div>
             <ul className='news'>
                 {
-                    posts.length > 0 ? posts.filter((post) => post.state).map((post) => (
+                    availablePosts.length > 0 ? availablePosts.map((post) => (
                         <li key={post.id} className='card' onClick={() => activateArticle(post.id)}>
-                            <img className='img-card' src={fondo1} alt='fondo1'/>
+                            <img className='img-card' src={getPostBackground(post.type)} alt='fondo1'/>
                             <div className='front-card'>
                                 <h2 className='card-title'>{post.title}</h2>
                                 <p className='card-p'>{post.text}</p>

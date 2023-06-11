@@ -46,14 +46,12 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPos
             setPostNumber(3);
 
             e.target.titulo.value = '';
-            e.target.autor.value = '';
             e.target.numero.value = '';
             e.target.texto.value = '';
             e.target.day.checked = false;
             e.target.night.checked = false;
             e.target.fecha.value = '';
             e.target.direccion.value = '';
-            e.target.tipo.value = '';
             e.target.urgent.checked = false;
         } else {
             setPostNumber(2);
@@ -70,7 +68,6 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPos
 
                 <label className='journalist-label' htmlFor="autor">Autor</label>
                 <select id='autor' name='autor'>
-                    <option value="">Anonimo</option>
                     {
                     listJournalist ? listJournalist.map((jour) => (
                         <option key={jour.id}>{jour.name}</option>
@@ -102,7 +99,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPos
                 <div className="conteiner-inputs-form">
                     <div>
                         <label className='journalist-label' htmlFor="fecha">Fecha</label>
-                        <input type="date" id="fecha" name="fecha" required/>
+                        <input type="date" id="fecha" name="fecha" min={new Date().toISOString().split('T')[0]} required/>
                     </div>
                     <div className="conteiner-radios">
                         <div className='radio'>
@@ -124,14 +121,10 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPos
 
                 <label className='journalist-label' htmlFor="tipo">Tipo de Noticia</label>
                 <select id="tipo" name="tipo">
-                    <option disabled value="">Ninguna</option>
-                    <option value="Noticias nacionales">Noticias nacionales</option>
-                    <option value="Noticias internacionales">Noticias internacionales</option>
-                    <option value="Economía">Economía</option>
-                    <option value="Política">Política</option>
-                    <option value="Ciencia y tecnología">Ciencia y tecnología</option>
-                    <option value="Entretenimiento">Entretenimiento</option>
-                    <option value="Deportes">Deportes</option>
+                    <option value='Noticias Internacionales'>Noticias Internacionales</option>
+                    <option value='Ciencia y Tecnología'>Ciencia y Tecnología</option>
+                    <option value='Entretenimiento'>Entretenimiento</option>
+                    <option value='Deportes'>Deportes</option>
                 </select>
                 <div className="conteiner-submit-journalist">
                     <div>
