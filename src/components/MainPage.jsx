@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { validateEmail } from './Validaciones';
+
 // Images
 import fondo0 from '../assets/img/Waiting.jpg';
 import fondo1 from '../assets/img/NoticiasInternacionales.jpg';
@@ -7,13 +7,10 @@ import fondo2 from '../assets/img/CienciaYTecnologia.jpg';
 import fondo3 from '../assets/img/Entretenimiento.jpg';
 import fondo4 from '../assets/img/Deporte.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin}) => {
+const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin, setDisplayContactPage}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
-    const [formName, setFormName] = useState(0);
-    const [formEmail, setFormEmail] = useState(0);
-    const [formSubject, setFormSubject] = useState(0);
 
     const [availablePosts, setAvailablePosts] = useState([]);
 
@@ -69,47 +66,6 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
 
     },[sessionStarted, user,setListJournalist,setPosts,setButtonAdmin])
 
-    const processGmail = (e) => {
-        e.preventDefault();
-
-        const tempMessage = {
-            name: e.target.name.value,
-            email: e.target.email.value,
-            subject: e.target.subject.value,
-            message: e.target.message.value
-        }
-
-        let success = 0;
-
-        //Validar
-        if (tempMessage.name.length > 0){success += 1;setFormName(1);
-        } else {setFormName(2);}
-        
-        if (validateEmail(tempMessage.email)){success += 1;setFormEmail(1);
-        } else {setFormEmail(2)}
-
-        if (tempMessage.subject.length > 0){success += 1;setFormSubject(1);
-        } else {setFormSubject(2);}
-        
-        if (tempMessage.message.length > 0){success += 1;
-        } else {}
-
-        if(success === 4){
-            setFormName(3);
-            setFormEmail(3)
-            setFormSubject(3);
-
-            //Borrar mensaje
-            e.target.name.value = '';
-            e.target.email.value = '';
-            e.target.subject.value = '';
-            e.target.message.value = '';
-            
-            alert('Gmail enviado correctamente :)')
-        }
-
-
-    }
 
     const getPostBackground = (type) => {
 
@@ -127,6 +83,11 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             default:
                 return fondo0;
         }
+    }
+
+    const activateContact = () => {
+        setDisplayMainPage(false);
+        setDisplayContactPage(true);
     }
 
     return (
@@ -249,73 +210,11 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             </ul>
         </div>
         {/* News */}
-        {/* Contact */}
-        <div className='conteiner-contact'>
-            <h3 className='contact-title'>Contacto</h3>
-            <form className='contact' onSubmit={processGmail}>
-                <div className='contact-flex'>
-                    <div className="input-flex">
-                        <input id='name' type='text' placeholder='Nombre'/>
-                        {
-                            formName === 1 ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                            )
-                            : formName === 2 ?
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff4500" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            : ''
-                        }
-                    </div>
-                    <div className="input-flex">
-                        <input id='email' type='email' placeholder='Gmail'/>
-                        {
-                            formEmail === 1 ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                            )
-                            : formEmail === 2 ?
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff4500" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            : ''
-                        }
-                    </div>
-                </div>
-                <div className="input-flex">
-                    <input id='subject' type='text' placeholder='Asunto'/>
-                    {
-                            formSubject === 1 ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                            )
-                            : formSubject === 2 ?
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff4500" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            : ''
-                        }
-                </div>
-                <textarea id='message' placeholder="Mensaje"></textarea>
-                <div className='contact-bottom'>
-                    <button id='submit' type='submit'>Enviar Mensaje</button>
-                </div>
-            </form>
+        {/*Footer*/}
+        <div className="footer">
+            <span id='contactClick' onClick={activateContact}>Contacto</span>
         </div>
-        {/* Contact */}
+        {/*Footer*/}
     </div>
   )
 }

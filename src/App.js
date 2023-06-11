@@ -7,6 +7,7 @@ import Article from './components/Article';
 import FormJournalist from './components/FormJournalist';
 import AdminPage from './components/AdminPage';
 import { SaveStorage } from './components/SaveStorage';
+import Contact from './components/Contact';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
     const [displayArticle, setDisplayArticle] = useState(false);
     const [displayForm, setDisplayForm] = useState(false);
     const [displayAdminPage, setDisplayAdminPage] = useState(false);
+    const [displayContactPage, setDisplayContactPage] = useState(false);
 
     //¿Usuario logeado?
     const [sessionStarted, setSesionStarted] = useState(false);
@@ -74,7 +76,8 @@ function App() {
                         setPosts={setPosts}
                         setPostId={setPostId}
                         buttonAdmin={buttonAdmin}
-                        setButtonAdmin={setButtonAdmin}/>
+                        setButtonAdmin={setButtonAdmin}
+                        setDisplayContactPage={setDisplayContactPage}/>
         </>
         );
     } else if (displayArticle){
@@ -128,6 +131,13 @@ function App() {
                         setStatus={setStatus}/>
         </>
         );
+    } else if (displayContactPage){
+        return (
+            <>
+                <Contact    setDisplayContactPage={setDisplayContactPage}
+                            setDisplayMainPage={setDisplayMainPage}/>
+            </>
+        )
     }
 }
 
