@@ -131,16 +131,16 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist,setPos
                         <input type="checkbox" name="when" id="urgent" />
                         <label htmlFor="when">Urgente</label>
                     </div>
+                    <button className='button-article' onClick={backMainPage}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-back" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
+                        </svg>
+                        Volver
+                    </button>
                     <input id='journalist-form' type="submit" value="Enviar Solicitud"/>
                 </div>
             </form>
-            <button className='back' onClick={backMainPage}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-back" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
-                </svg>
-                Volver
-            </button>
 	    </div>
         </div>
         </div>

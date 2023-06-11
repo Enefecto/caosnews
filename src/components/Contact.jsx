@@ -55,6 +55,7 @@ const Contact = ({setDisplayMainPage,setDisplayContactPage}) => {
     }
 
     return (
+        <div className="background-login">
         <div className='conteiner-contact'>
         <h3 className='contact-title'>Contacto</h3>
         <form className='contact' onSubmit={processGmail}>
@@ -126,6 +127,7 @@ const Contact = ({setDisplayMainPage,setDisplayContactPage}) => {
                 </svg>
                 Volver
         </button>
+    </div>
     </div>
     )
 }
