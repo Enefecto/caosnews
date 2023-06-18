@@ -5,7 +5,7 @@ import fondo2 from '../assets/img/CienciaYTecnologia.jpg';
 import fondo3 from '../assets/img/Entretenimiento.jpg';
 import fondo4 from '../assets/img/Deporte.jpg';
 
-const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postId,status,setStatus,setPosts,buttonAdmin}) => {
+const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postId,status,setStatus,posts,buttonAdmin,setDisplayEditForm,setIdPostEdit}) => {
     
     const returnMainPage = () => {
         setDisplayArticle(false);
@@ -14,17 +14,24 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
     }
 
     const buttonApprove = () => {
-        setPosts(prevPosts => {
-            const updatedPosts = prevPosts.map(item => {
-            if (item.id === postId) {
-                return { ...item, state: true };
-            }
-            return item;
-        });
-      
-        localStorage.setItem('posts', JSON.stringify(updatedPosts));
-      
-        return updatedPosts;
+        const updatedPost = { ...post };
+        updatedPost.state = true;
+        fetch(`http://127.0.0.1:8000/api/noticias/`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedPost),
+        })
+        .then((response) => {
+        if (response.ok) {
+            console.log('La solicitud PUT fue exitosa.');
+        } else {
+            console.log('La solicitud PUT falló.');
+        }
+        })
+        .catch((error) => {
+            console.error('Error en la solicitud PUT:', error);
         });
         setDisplayArticle(false);
         setDisplayAdminPage(true);
@@ -32,36 +39,43 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
     };
       
     const buttonDecline = () => {
-        setPosts(prevPosts => {
-            const updatedPosts = prevPosts.map(item => {
-                if (item.id === postId) {
-                    return { ...item, state: false };
-                }
-                return item;
-            });
-      
-            localStorage.setItem('posts', JSON.stringify(updatedPosts));
-      
-            return updatedPosts;
+        fetch(`http://127.0.0.1:8000/api/noticias/${postId}/`, {
+            method: 'DELETE'
+        })
+        .then((response) => {
+        if (response.ok) {
+            console.log('La solicitud DELETE fue exitosa.');
+        } else {
+            console.log('La solicitud DELETE falló.');
+        }
+        })
+        .catch((error) => {
+            console.error('Error en la solicitud DELETE:', error);
         });
-
         setDisplayArticle(false);
         setDisplayAdminPage(true);
         setStatus(false);
     };
 
+    const buttonEdit = () => {
+        setIdPostEdit(post.id);
+        setDisplayArticle(false);
+        setDisplayEditForm(true);
+    }
+
     const buttonDelete = () => {
-        setPosts(prevPosts => {
-
-            let updatedPosts = prevPosts.map(item => (item.id !== postId ? item : null)).filter(Boolean);
-
-            if(!updatedPosts[0]){
-                updatedPosts = [];
-                localStorage.setItem('posts', JSON.stringify(updatedPosts));
-                return updatedPosts;
-            }
-            localStorage.setItem('posts', JSON.stringify(updatedPosts));
-            return updatedPosts;
+        fetch(`http://127.0.0.1:8000/api/noticias/${postId}/`, {
+            method: 'DELETE'
+        })
+        .then((response) => {
+        if (response.ok) {
+            console.log('La solicitud DELETE fue exitosa.');
+        } else {
+            console.log('La solicitud DELETE falló.');
+        }
+        })
+        .catch((error) => {
+            console.error('Error en la solicitud DELETE:', error);
         });
 
         
@@ -72,16 +86,32 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
     const getPostBackground = (type) => {
 
         switch (type) {
-            case 'Noticias Internacionales':
+            case 1:
                 return fondo1;
-            case 'Ciencia y Tecnología':
+            case 2:
                 return fondo2;
-            case 'Entretenimiento':
+            case 3:
                 return fondo3;
-            case 'Deportes':
+            case 4:
                 return fondo4;
             default:
                 return fondo1;
+        }
+    }
+
+    const getType = (type) => {
+
+        switch (type) {
+            case 1:
+                return 'Noticias Internacionales';
+            case 2:
+                return 'Ciencia y Tecnología';
+            case 3:
+                return 'Entretenimiento';
+            case 4:
+                return 'Deportes';
+            default:
+                return 'Noticias Internacionales';
         }
     }
 
@@ -89,14 +119,12 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
     const [post, setPost] = useState([]);
     
     useEffect(() => {
-        //Obtener los posts
-        let storagePosts = JSON.parse(localStorage.getItem('posts'));
         
-        if (storagePosts){
-            let postFiltered = storagePosts.filter(post => post.id === postId);
+        if (posts){
+            let postFiltered = posts.filter(item => item.id === postId);
             setPost(postFiltered[0]);
         }
-    },[setPost,postId])
+    },[posts,setPost,postId])
     
     return (
     <div className='article-conteiner'>
@@ -104,7 +132,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
         <main className='main-article'>
             <div className='row-article'>
                 <div className='columnas-article columna-1'>
-                    <img className='imagen-article' src={getPostBackground(post.type)} alt="Fondo1"/>
+                    <img className='imagen-article' src={getPostBackground(post.type)} alt="Fondo"/>
                 </div>
                 <div className='columnas-article columna-2'>
                     <div className='top-columna-article'>
@@ -116,7 +144,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
                     </div>
                     <div className='bottom-columna-article'>
                         <span className='ubicacion-article'>{post.direction}</span>
-                        <span className='categoria-article'>{post.type}</span>
+                        <span className='categoria-article'>{getType(post.type)}</span>
                     </div>
                 </div>
             </div>
@@ -132,6 +160,7 @@ const Article = ({setDisplayArticle,setDisplayMainPage,setDisplayAdminPage,postI
             <div className="buttonsDecision">
                 {status ? <button onClick={buttonApprove} id='button-aprove'>Aprobar</button> : ''}
                 {status ? <button onClick={buttonDecline} id='button-decline'>Rechazar</button> : ''}
+                {status ? '' : buttonAdmin ? <button onClick={buttonEdit} id='button-aprove'>Editar</button> : ''}
                 {status ? '' : buttonAdmin ? <button onClick={buttonDelete} id='button-decline'>Eliminar</button> : ''}
             </div>
         </footer>

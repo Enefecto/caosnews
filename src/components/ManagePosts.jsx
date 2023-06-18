@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
-const ManagePosts = ({posts,setPostId,setStatus,setDisplayAdminPage,setDisplayArticle}) => {
+const ManagePosts = ({posts,setPosts,setPostId,setStatus,setDisplayAdminPage,setDisplayArticle}) => {
     
     const activateArticle  = (id) => {
         setPostId(id);
@@ -8,7 +8,34 @@ const ManagePosts = ({posts,setPostId,setStatus,setDisplayAdminPage,setDisplayAr
         setDisplayAdminPage(false);
         setDisplayArticle(true);
     }
-    
+    const getType = (type) => {
+
+        switch (type) {
+            case 1:
+                return 'Noticias Internacionales';
+            case 2:
+                return 'Ciencia y Tecnología';
+            case 3:
+                return 'Entretenimiento';
+            case 4:
+                return 'Deportes';
+            default:
+                return 'Noticias Internacionales';
+        }
+    }
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/noticias/')
+            .then(response => response.json())
+            .then(data => {
+                // Maneja la respuesta de la solicitud aquí
+                setPosts(data);
+            })
+            .catch(error => {
+                // Maneja los errores aquí
+                console.error('Error:', error);
+        });
+    },[setPosts])
+
     return (
         <div className="conteiner-manage">
             <div className="manage-top">
@@ -21,7 +48,7 @@ const ManagePosts = ({posts,setPostId,setStatus,setDisplayAdminPage,setDisplayAr
                             <span id='post-tittle'>{post.title}</span>
                             <div className="post-bottom">
                                 <span id='post-author'>{post.author}</span>
-                                <span id='post-type'>{post.type}</span>
+                                <span id='post-type'>{getType(post.type)}</span>
                                 <span id='post-urgent'>Urgente: <span id='urgent-state'>{post.urgent ? 'Si' : 'No'}</span></span>
                             </div>
                         </li>

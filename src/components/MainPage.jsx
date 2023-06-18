@@ -48,6 +48,17 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             }
         }
 
+        fetch('http://127.0.0.1:8000/api/noticias/')
+            .then(response => response.json())
+            .then(data => {
+                // Maneja la respuesta de la solicitud aquí
+                setPosts(data);
+            })
+            .catch(error => {
+                // Maneja los errores aquí
+                console.error('Error:', error);
+        });
+
         
         //Setear Periodistas
         let storage = JSON.parse(localStorage.getItem('users'));
@@ -56,29 +67,25 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
             setListJournalist(filteredJournalists);
         }
 
-        //Setear Posts
-        let posts = JSON.parse(localStorage.getItem('posts'));
-        setPosts(posts);
-
         if (posts){
             setAvailablePosts(posts.filter((post) => post.state));
         }
 
-    },[sessionStarted, user,setListJournalist,setPosts,setButtonAdmin])
+    },[sessionStarted, user,setListJournalist,posts,setPosts,setButtonAdmin])
 
 
     const getPostBackground = (type) => {
 
         switch (type) {
-            case 'Ninguna':
+            case 0:
                 return fondo0
-            case 'Noticias Internacionales':
+            case 1:
                 return fondo1;
-            case 'Ciencia y Tecnología':
+            case 2:
                 return fondo2;
-            case 'Entretenimiento':
+            case 3:
                 return fondo3;
-            case 'Deportes':
+            case 4:
                 return fondo4;
             default:
                 return fondo0;
@@ -184,10 +191,10 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                         <span>Categoria:</span>
                         <select className='select'>
                             <option value='Ninguna'>Ninguna</option>
-                            <option value='Noticias Internacionales'>Noticias Internacionales</option>
-                            <option value='Ciencia y Tecnología'>Ciencia y Tecnología</option>
-                            <option value='Entretenimiento'>Entretenimiento</option>
-                            <option value='Deportes'>Deportes</option>
+                            <option value='1'>Noticias Internacionales</option>
+                            <option value='2'>Ciencia y Tecnología</option>
+                            <option value='3'>Entretenimiento</option>
+                            <option value='4'>Deportes</option>
                         </select>
                     </div>
                 </div>

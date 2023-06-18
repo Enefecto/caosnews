@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+import { SaveStorage } from './components/SaveStorage';
 import './App.css';
 import MainPage from './components/MainPage.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
-import Article from './components/Article';
-import FormJournalist from './components/FormJournalist';
-import AdminPage from './components/AdminPage';
-import { SaveStorage } from './components/SaveStorage';
-import Contact from './components/Contact';
+import Article from './components/Article.jsx';
+import FormJournalist from './components/FormJournalist.jsx';
+import EditNotice from './components/EditNotice.jsx';
+import AdminPage from './components/AdminPage.jsx';
+import Contact from './components/Contact.jsx';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
     const [displayForm, setDisplayForm] = useState(false);
     const [displayAdminPage, setDisplayAdminPage] = useState(false);
     const [displayContactPage, setDisplayContactPage] = useState(false);
+    const [displayEditForm, setDisplayEditForm] = useState(false);
 
     //¿Usuario logeado?
     const [sessionStarted, setSesionStarted] = useState(false);
@@ -30,11 +32,11 @@ function App() {
     //Periodistas
     const [listJournalist, setListJournalist] = useState([]);
 
-    //Post, PostId, Status
+    //Post, PostId, Status, IdPostEdit
     const [posts,setPosts] = useState([]);
     const [postId, setPostId] = useState(0);
     const [status, setStatus] =  useState(false);
-
+    const [idPostEdit, setIdPostEdit] = useState(0);
 
     useEffect(() => {
         let storage = JSON.parse(localStorage.getItem('users'));
@@ -58,7 +60,18 @@ function App() {
             };
             SaveStorage('users',tempUser);
         }
-    },[])
+        // Solicitud de noticias
+        fetch('http://127.0.0.1:8000/api/noticias/')
+            .then(response => response.json())
+            .then(data => {
+                // Maneja la respuesta de la solicitud aquí
+                setPosts(data);
+            })
+            .catch(error => {
+                // Maneja los errores aquí
+                console.error('Error:', error);
+            });
+    },[setPosts])
 
     if (displayMainPage){
         return (
@@ -89,8 +102,10 @@ function App() {
                         postId={postId}
                         status={status}
                         setStatus={setStatus}
-                        setPosts={setPosts}
-                        buttonAdmin={buttonAdmin}/>
+                        posts={posts}
+                        buttonAdmin={buttonAdmin}
+                        setDisplayEditForm={setDisplayEditForm}
+                        setIdPostEdit={setIdPostEdit}/>
         </>
         );
     } else if (displayLogin){
@@ -115,8 +130,18 @@ function App() {
         <>
             <FormJournalist setDisplayMainPage={setDisplayMainPage}
                             setDisplayForm={setDisplayForm}
+                            listJournalist={listJournalist}/>
+        </>
+        );
+    } else if (displayEditForm){
+        return (
+        <>
+            <EditNotice     setDisplayMainPage={setDisplayMainPage}
+                            setDisplayForm={setDisplayForm}
                             listJournalist={listJournalist}
-                            setPosts={setPosts}/>
+                            setDisplayEditForm={setDisplayEditForm}
+                            idPostEdit={idPostEdit}
+                            posts={posts}/>
         </>
         );
     } else if (displayAdminPage){

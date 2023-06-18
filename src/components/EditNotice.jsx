@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { validatePhoneNumber } from './Validaciones';
 
-const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
+const EditNotice = ({setDisplayMainPage,listJournalist,setDisplayEditForm,idPostEdit,posts}) => {
 
     const [postNumber, setPostNumber] = useState(0);
+    
+    const [editPost, setEditPost] = useState({});
 
     const backMainPage = () => {
-        setDisplayForm(false);
+        setDisplayEditForm(false);
         setDisplayMainPage(true);
     }
 
@@ -14,6 +16,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
         e.preventDefault();
 
         const tempPost = {
+            id: idPostEdit,
             title: e.target.titulo.value, 
             author: e.target.autor.value, 
             phone: parseInt(e.target.numero.value), 
@@ -22,16 +25,15 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
             text: e.target.texto.value, 
             direction: e.target.direccion.value,
             type: parseInt(e.target.tipo.value), 
-            urgent: e.target.urgent.checked, 
-            state: false 
+            urgent: editPost.urgent, 
+            state: editPost.state
         } 
 
         if (validatePhoneNumber(tempPost.phone)){
             setPostNumber(1);
-            alert('Solicitud enviada correctamente');
 
             fetch(`http://127.0.0.1:8000/api/noticias/`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                 'Content-Type': 'application/json',
                 },
@@ -39,9 +41,9 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
             })
             .then((response) => {
             if (response.ok) {
-                console.log('La solicitud POST fue exitosa.');
+                console.log('Noticia Editada correctamente');
             } else {
-                console.log('La solicitud POST falló.');
+                console.log('No se pudo editar, intentelo denuevo');
             }
             })
             .catch((error) => {
@@ -49,30 +51,30 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
             });
 
             setPostNumber(3);
-
-            e.target.titulo.value = '';
-            e.target.numero.value = '';
-            e.target.texto.value = '';
-            e.target.day.checked = false;
-            e.target.night.checked = false;
-            e.target.fecha.value = '';
-            e.target.direccion.value = '';
-            e.target.urgent.checked = false;
         } else {
             setPostNumber(2);
         }
+        
+        setDisplayEditForm(false);
+        setDisplayMainPage(true);
     }
+
+    useEffect(() => {
+        const postToEdit = posts.find((post) => post.id === idPostEdit);
+        setEditPost(postToEdit);
+    }, [idPostEdit, posts]);      
+
     return (
         <div className='background-login'>
         <div className='conteiner-general'>
         <div className="form-journalist">
-            <h1>Nueva Noticia</h1>
+            <h1>Editar Noticia</h1>
             <form onSubmit={getPost}>
-                <label className='journalist-label' htmlFor="titulo">Título</label>
-                <input type="text" id="titulo" name="titulo" required/>
+                <label className='journalist-label'>Título</label>
+                <input type="text" id="titulo" name="titulo" value={editPost.title} onChange={e => setEditPost({...editPost, title: e.target.value})} required/>
 
-                <label className='journalist-label' htmlFor="autor">Autor</label>
-                <select id='autor' name='autor'>
+                <label className='journalist-label'>Autor</label>
+                <select id='autor' name='autor' value={editPost.author} onChange={e => setEditPost({...editPost, author: e.target.value})}>
                     {
                     listJournalist ? listJournalist.map((jour) => (
                         <option key={jour.id}>{jour.name}</option>
@@ -82,9 +84,9 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
                     }
                 </select>
 
-                <label className='journalist-label' htmlFor="numero">Numero</label>
+                <label className='journalist-label'>Numero</label>
                 <div className='input-flex'>
-                    <input type="number" id="numero" name="numero" required/>
+                    <input type="number" id="numero" name="numero" value={editPost.phone} onChange={e => setEditPost({...editPost, phone: e.target.value})} required/>
                     {
                             postNumber === 1 ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#00b341" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -103,39 +105,35 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
                 </div>
                 <div className="conteiner-inputs-form">
                     <div>
-                        <label className='journalist-label' htmlFor="fecha">Fecha</label>
-                        <input type="date" id="fecha" name="fecha" min={new Date().toISOString().split('T')[0]} required/>
+                        <label className='journalist-label'>Fecha</label>
+                        <input type="date" id="fecha" name="fecha" value={editPost.date} onChange={e => setEditPost({...editPost, date: e.target.value})} min={new Date().toISOString().split('T')[0]} required/>
                     </div>
                     <div className="conteiner-radios">
                         <div className='radio'>
-                            <input type="radio" name="day-night" id="day" required/>
+                            <input type="radio" name="day-night" id="day" value={editPost.day} required/>
                             <label >Día</label>
                         </div>
                         <div className='radio'>
-                            <input type="radio" name="day-night" id="night" required />
+                            <input type="radio" name="day-night" id="night" checked={editPost.value ? false : true} onChange={() => {}} required/>
                             <label >Noche</label>
                         </div>
                     </div>
                 </div>
 
-                <label className='journalist-label' htmlFor="texto">Texto</label>
-                <textarea id="texto" name="texto" required></textarea>
+                <label className='journalist-label'>Texto</label>
+                <textarea id="texto" name="texto" value={editPost.text} onChange={e => setEditPost({...editPost, text: e.target.value})} required></textarea>
 
-                <label className='journalist-label' htmlFor="direccion">Dirección</label>
-                <input type="text" id="direccion" name="direccion" required/>
+                <label className='journalist-label'>Dirección</label>
+                <input type="text" id="direccion" name="direccion" value={editPost.direction} onChange={e => setEditPost({...editPost, direction: e.target.value})} required/>
 
-                <label className='journalist-label' htmlFor="tipo">Tipo de Noticia</label>
-                <select id="tipo" name="tipo">
+                <label className='journalist-label'>Tipo de Noticia</label>
+                <select id="tipo" name="tipo" value={editPost.type} onChange={e => setEditPost({...editPost, type: e.target.value})}>
                     <option value='1'>Noticias Internacionales</option>
                     <option value='2'>Ciencia y Tecnología</option>
                     <option value='3'>Entretenimiento</option>
                     <option value='4'>Deportes</option>
                 </select>
                 <div className="conteiner-submit-journalist">
-                    <div>
-                        <input type="checkbox" name="when" id="urgent" />
-                        <label htmlFor="when">Urgente</label>
-                    </div>
                     <button className='button-article' onClick={backMainPage}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-back" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -143,7 +141,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
                         </svg>
                         Volver
                     </button>
-                    <input id='journalist-form' type="submit" value="Enviar Solicitud"/>
+                    <input id='journalist-form' type="submit" value="Confirmar edición"/>
                 </div>
             </form>
 	    </div>
@@ -152,4 +150,4 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
     )
 }
 
-export default FormJournalist;
+export default EditNotice;

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import CreateAccountAdmin from './CreateAccountAdmin';
 import ManagePosts from './ManagePosts';
 
-const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,posts,setPostId,setStatus,setDisplayArticle}) => {
+const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,posts,setPosts,setPostId,setStatus,setDisplayArticle}) => {
     
     const [displayManagePosts, setDisplayManagePosts] = useState(true);
 
@@ -34,7 +34,8 @@ const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,posts,setPostId,setSt
                                                     setPostId={setPostId}
                                                     setStatus={setStatus}
                                                     setDisplayAdminPage={setDisplayAdminPage}
-                                                    setDisplayArticle={setDisplayArticle}/> 
+                                                    setDisplayArticle={setDisplayArticle}
+                                                    setPosts={setPosts}/> 
                             : <CreateAccountAdmin/>}
                 
             </div>
