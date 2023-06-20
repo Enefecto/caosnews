@@ -34,7 +34,8 @@ const ManagePosts = ({posts,setPosts,setPostId,setStatus,setDisplayAdminPage,set
                 // Maneja los errores aquí
                 console.error('Error:', error);
         });
-    },[setPosts])
+        // eslint-disable-next-line
+    },[])
 
     return (
         <div className="conteiner-manage">

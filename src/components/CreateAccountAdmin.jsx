@@ -1,56 +1,70 @@
-import React, {useState} from 'react'
-import { SaveStorage } from './SaveStorage';
+import React, {useState, useEffect} from 'react'
 import { validateEmail } from './Validaciones';
 
 const CreateAccountAdmin = () => {
 
+    const [users, setUsers] = useState([]);
     const [errorLogin, setErrorLogin] = useState('');
     const [successfulLogin, setSuccessfulLogin] = useState('');
 
     const getData = (e) => {
         e.preventDefault();
-
-        // Obtener previos registros de usuarios
-        let storage = JSON.parse(localStorage.getItem('users'));
-        
+    
         // Crear nuevo usuario temporalmente
         let tempUser = {
-            id: new Date().getTime(),
-			name: e.target.createAccountUser.value,
-			email: e.target.createAccountEmail.value,
-            password: e.target.createAccountPassword.value,
-            type: e.target.createAccountType.value
-		};
-
-        if (tempUser.name.length > 0 && validateEmail(tempUser.email) && tempUser.password.length > 0){
+            UserName: e.target.createAccountUser.value,
+            UserEmail: e.target.createAccountEmail.value,
+            UserPassword: e.target.createAccountPassword.value,
+            UserTypeID: 1
+        };
+        
+        if (
+            tempUser.UserName.length > 0 &&
+            validateEmail(tempUser.UserEmail) &&
+            tempUser.UserPassword.length > 0
+        ) {
             // Validar si el usuario existe o no y agregarlo o negarlo.
-            if (!storage){
-                SaveStorage('users',tempUser);
-                //Cerrar CreateAccount
-            } else {
-                let coincidences = storage.filter( user => {
-                    return user.email === tempUser.email;
+
+            if (users){
+                let coincidences = users.filter((user) => {
+                    return user.UserEmail === tempUser.UserEmail;
                 });
-                
-                if (coincidences.length === 0){
-                    // Save in localStorage
-                    SaveStorage('users',tempUser);
+
+                if (coincidences.length === 0) {
+                    fetch('http://127.0.0.1:8000/api/users/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(tempUser),
+                    });
 
                     setErrorLogin('');
                     setSuccessfulLogin('Cuenta Creada exitosamente');
-                    e.target.createAccountUser.value = '';
-                    e.target.createAccountEmail.value = '';
-                    e.target.createAccountPassword.value = '';
                 } else {
-                    setSuccessfulLogin('');
                     setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
-                    e.target.createAccountEmail.value = '';
+                    setSuccessfulLogin('');
                 }
             }
         } else {
             setErrorLogin('Ingrese correctamente los datos');
         }
-    }
+    };
+
+    useEffect(()=>{
+        // Solicitud de usuarios
+        fetch('http://127.0.0.1:8000/api/users/')
+        .then(response => response.json())
+        .then(data => {
+            // Maneja la respuesta de la solicitud aquí
+            setUsers(data);
+        })
+        .catch(error => {
+                // Maneja los errores aquí
+                console.error('Error:', error);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     return (
         <form className='login-form create-account-form' onSubmit={getData}>

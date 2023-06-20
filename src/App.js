@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { SaveStorage } from './components/SaveStorage';
 import './App.css';
 import MainPage from './components/MainPage.jsx';
 import Login from './components/Login.jsx';
@@ -9,6 +8,7 @@ import FormJournalist from './components/FormJournalist.jsx';
 import EditNotice from './components/EditNotice.jsx';
 import AdminPage from './components/AdminPage.jsx';
 import Contact from './components/Contact.jsx';
+import EditAccounts from './components/EditAccounts';
 
 function App() {
 
@@ -21,10 +21,16 @@ function App() {
     const [displayAdminPage, setDisplayAdminPage] = useState(false);
     const [displayContactPage, setDisplayContactPage] = useState(false);
     const [displayEditForm, setDisplayEditForm] = useState(false);
+    const [displayEditAccounts, setDisplayEditAccounts] = useState(false);
 
     //¿Usuario logeado?
     const [sessionStarted, setSesionStarted] = useState(false);
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({
+        UserId: '',
+        UserName: '',
+        UserEmail: '',
+        UserTypeID: 0,
+    });
 
     //Es admin?
     const [buttonAdmin, setButtonAdmin] = useState(false);
@@ -38,28 +44,10 @@ function App() {
     const [status, setStatus] =  useState(false);
     const [idPostEdit, setIdPostEdit] = useState(0);
 
+    //UserId
+    const [UserId, setUserId] = useState(0);
+
     useEffect(() => {
-        let storage = JSON.parse(localStorage.getItem('users'));
-        if (!storage){
-            //Admin
-            let tempUser = {
-                id: new Date().getTime(),
-                name: 'Admin',
-                email: 'admin@gmail.com',
-                password: '123',
-                type: 'Admin'
-            };
-            SaveStorage('users',tempUser);
-            //Periodista
-            tempUser = {
-                id: new Date().getTime(),
-                name: 'Pancho Saavedra',
-                email: 'periodista@gmail.com',
-                password: '123',
-                type: 'Journalist'
-            };
-            SaveStorage('users',tempUser);
-        }
         // Solicitud de noticias
         fetch('http://127.0.0.1:8000/api/noticias/')
             .then(response => response.json())
@@ -71,7 +59,8 @@ function App() {
                 // Maneja los errores aquí
                 console.error('Error:', error);
             });
-    },[setPosts])
+            // eslint-disable-next-line
+    },[])
 
     if (displayMainPage){
         return (
@@ -79,7 +68,6 @@ function App() {
             <MainPage   setDisplayMainPage={setDisplayMainPage}
                         setdisplayLogin={setdisplayLogin}
                         sessionStarted={sessionStarted}
-                        user={user}
                         setDisplayArticle={setDisplayArticle}
                         setDisplayForm={setDisplayForm}
                         setDisplayAdminPage={setDisplayAdminPage}
@@ -90,7 +78,9 @@ function App() {
                         setPostId={setPostId}
                         buttonAdmin={buttonAdmin}
                         setButtonAdmin={setButtonAdmin}
-                        setDisplayContactPage={setDisplayContactPage}/>
+                        setDisplayContactPage={setDisplayContactPage}
+                        user={user}
+                        setSesionStarted={setSesionStarted}/>
         </>
         );
     } else if (displayArticle){
@@ -150,10 +140,12 @@ function App() {
             <AdminPage  setDisplayMainPage={setDisplayMainPage}
                         setDisplayAdminPage={setDisplayAdminPage}
                         setDisplayArticle={setDisplayArticle}
+                        setDisplayEditAccounts={setDisplayEditAccounts}
                         posts={posts}
                         setPosts={setPosts}
                         setPostId={setPostId}
-                        setStatus={setStatus}/>
+                        setStatus={setStatus}
+                        setUserId={setUserId}/>
         </>
         );
     } else if (displayContactPage){
@@ -161,6 +153,14 @@ function App() {
             <>
                 <Contact    setDisplayContactPage={setDisplayContactPage}
                             setDisplayMainPage={setDisplayMainPage}/>
+            </>
+        )
+    } else if (displayEditAccounts){
+        return (
+            <>
+                <EditAccounts   setDisplayAdminPage={setDisplayAdminPage}
+                                setDisplayEditAccounts={setDisplayEditAccounts}
+                                UserId={UserId}/>
             </>
         )
     }

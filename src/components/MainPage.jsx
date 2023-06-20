@@ -7,12 +7,17 @@ import fondo2 from '../assets/img/CienciaYTecnologia.jpg';
 import fondo3 from '../assets/img/Entretenimiento.jpg';
 import fondo4 from '../assets/img/Deporte.jpg';
 
-const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin, setDisplayContactPage}) => {
+const MainPage = ({setSesionStarted,setDisplayMainPage,setdisplayLogin,sessionStarted,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin, setDisplayContactPage,user}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
-
+    
+    //Post Disponibles
     const [availablePosts, setAvailablePosts] = useState([]);
+
+    //Usuarios
+    const [users, setUsers] = useState([]);
+
 
     const activateLogin = () => {
         setDisplayMainPage(false);
@@ -36,18 +41,6 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
     }
 
     useEffect(() => {
-        if (sessionStarted){
-            if (user[0].type === 'User'){
-                setButtonStory(false);
-                setButtonAdmin(false);
-            } else if (user[0].type === 'Journalist'){
-                setButtonStory(true);
-            } else if (user[0].type === 'Admin'){
-                setButtonAdmin(true);
-                setButtonStory(true);
-            }
-        }
-
         fetch('http://127.0.0.1:8000/api/noticias/')
             .then(response => response.json())
             .then(data => {
@@ -58,20 +51,52 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                 // Maneja los errores aquí
                 console.error('Error:', error);
         });
+        fetch('http://127.0.0.1:8000/api/users/')
+            .then(response => response.json())
+            .then(data => {
+                // Maneja la respuesta de la solicitud aquí
+                setUsers(data);
+            })
+            .catch(error => {
+                // Maneja los errores aquí
+                console.error('Error:', error);
+        });
+        // eslint-disable-next-line
+    },[])
 
-        
-        //Setear Periodistas
-        let storage = JSON.parse(localStorage.getItem('users'));
+    useEffect(() => {
+        let storage = JSON.parse(localStorage.getItem('User'));
         if (storage){
-            let filteredJournalists = storage.filter(user => user.type === 'Journalist');
-            setListJournalist(filteredJournalists);
+            setSesionStarted(true);
+        }
+        if (sessionStarted){
+
+            if (user.UserTypeID === 1){
+                setButtonStory(false);
+                setButtonAdmin(false);
+            } else if (user.UserTypeID === 2){
+                setButtonStory(true);
+                setButtonAdmin(false);
+            } else if (user.UserTypeID === 3){
+                setButtonAdmin(true);
+                setButtonStory(true);
+            } else {
+                setButtonStory(false);
+                setButtonAdmin(false);
+            }
         }
 
         if (posts){
             setAvailablePosts(posts.filter((post) => post.state));
         }
 
-    },[sessionStarted, user,setListJournalist,posts,setPosts,setButtonAdmin])
+        //Setear Periodistas
+        if (users){
+            let filteredJournalists = users.filter(user => user.UserTypeID === 2);
+            setListJournalist(filteredJournalists);
+        }
+
+    },[posts,sessionStarted,setSesionStarted,setButtonAdmin,setListJournalist,setPosts,users,user])
 
 
     const getPostBackground = (type) => {
@@ -109,7 +134,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                         {buttonStory ? <button className='button-extra' onClick={activateFormJournalist}>Publicar</button> : ''}
                     </div>
                     <div className='accounts'>
-                        <span className='usuario-name'>{sessionStarted ? user[0].name : ''}</span>
+                        <span className='usuario-name'>{sessionStarted ? user.UserName : ''}</span>
                         <button id='login' onClick={activateLogin}>
                             <svg    xmlns="http://www.w3.org/2000/svg"
                                     className="icon icon-tabler icon-tabler-user-circle"
@@ -179,7 +204,7 @@ const MainPage = ({setDisplayMainPage,setdisplayLogin,sessionStarted,user,setDis
                             <option>Anonimo</option>
                             {
                             listJournalist ? listJournalist.map((jour) => (
-                                <option key={jour.id}>{jour.name}</option>
+                                <option key={jour.UserId}>{jour.UserName}</option>
                             ))
                             :
                             ''

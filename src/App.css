@@ -896,3 +896,49 @@
 #urgent-state{
 	color: rgb(155, 0, 0);
 }
+/* MANAGE ACCOUNTS */
+.account{
+	list-style: none;
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	box-shadow: 0 15px 15px 0 rgba(0,0,0,.4);
+	background-color: var(--green);
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 25px;
+	cursor: pointer;
+}
+@media (max-width: 500px) {
+	.account{
+		flex-direction: column;
+	}
+}
+#account-name,#account-type,#account-gmail{
+	font-size: 1.5rem;
+	color: white;
+}
+#account-type{color: var(--red);font-weight: bold;}
+
+/* EditAccounts */
+.half{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+#deleteAccount{
+	border: none;
+	border-radius: 1rem;
+	padding: 10px;
+	font-size: 1.5rem;
+	background-color: var(--azul);
+	color: var(--white);
+	cursor: pointer;
+}
+#deleteAccount:hover{
+	background-color: var(--red);
+	transition: all 0.2s ease-in-out;
+}

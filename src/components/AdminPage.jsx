@@ -1,22 +1,29 @@
 import React, { useState } from 'react'
 import CreateAccountAdmin from './CreateAccountAdmin';
 import ManagePosts from './ManagePosts';
+import ManageAccounts from './ManageAccounts';
 
-const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,posts,setPosts,setPostId,setStatus,setDisplayArticle}) => {
+const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,setDisplayEditAccounts,posts,setPosts,setPostId,setStatus,setDisplayArticle,setUserId}) => {
     
-    const [displayManagePosts, setDisplayManagePosts] = useState(true);
+    const [switchDisplayer, setSwitchDisplayer] = useState(0);
+
 
     const backMainPage = () => {
         setDisplayAdminPage(false);
         setDisplayMainPage(true);
     }
-    
-    const activateAccount = () => {
-        setDisplayManagePosts(false);
-    }
 
     const activateManagePosts = () => {
-        setDisplayManagePosts(true);
+        setSwitchDisplayer(0);
+    }
+    
+    const activateAccount = () => {
+        setSwitchDisplayer(1);
+    }
+
+
+    const activateManageAccounts = () => {
+        setSwitchDisplayer(2);
     }
 
     return (
@@ -28,15 +35,20 @@ const AdminPage = ({setDisplayMainPage,setDisplayAdminPage,posts,setPosts,setPos
             <div className="control-panel">
                 <button onClick={activateManagePosts}>Administrar Publicaciones</button>
                 <button onClick={activateAccount}>Crear Cuenta</button>
+                <button onClick={activateManageAccounts}>Administrar Cuentas</button>
             </div>
             <div className="principal-content">
-                {displayManagePosts ? <ManagePosts  posts={posts}
+                {switchDisplayer === 0 ? <ManagePosts  posts={posts}
                                                     setPostId={setPostId}
                                                     setStatus={setStatus}
                                                     setDisplayAdminPage={setDisplayAdminPage}
                                                     setDisplayArticle={setDisplayArticle}
                                                     setPosts={setPosts}/> 
-                            : <CreateAccountAdmin/>}
+                : ''}
+                {switchDisplayer === 1 ? <CreateAccountAdmin/> : ''}
+                {switchDisplayer === 2 ? <ManageAccounts    setDisplayEditAccounts={setDisplayEditAccounts}
+                                                            setDisplayAdminPage={setDisplayAdminPage}
+                                                            setUserId={setUserId}/> : ''}
                 
             </div>
         </div>

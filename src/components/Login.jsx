@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { validateEmail } from './Validaciones';
 
 const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSesionStarted,setUser}) => {
 
     const [errorLogin, setErrorLogin] = useState('');
+    const [users, setUsers] = useState([]);
 
     const activateCreateAccount = () => {
         setdisplayLogin(false);
@@ -12,31 +13,35 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSe
 
     const tryLogin = (e) => {
         e.preventDefault();
-
-        // Obtener previos registros de usuarios
-        let storage = JSON.parse(localStorage.getItem('users'));
-
+        
         //Guardar temporalmente al usuario para validar login
         let tempUser = {
 			email: e.target.createAccountEmail.value,
             password: e.target.createAccountPassword.value,
-            type: e.target.createAccountType.value
+            type: parseInt(e.target.createAccountType.value)
 		};
-        
+
         if (validateEmail(tempUser.email)  && tempUser.password.length > 0 ){
-            if (!storage){
-                setErrorLogin('No hay usuarios registrados.');
-            } else {
-                let coincidences = storage.filter( user => {
-                    return  user.email === tempUser.email
-                            && user.password === tempUser.password
-                            && user.type === tempUser.type;
+            if (users) {
+                let coincidences = users.filter( user => {
+                    return  user.UserEmail === tempUser.email
+                            && user.UserPassword === tempUser.password
+                            && user.UserTypeID === tempUser.type;
                 });
                 if (coincidences.length === 1){
-                    setErrorLogin('');
                     //Dar iniciada la sesion
                     setSesionStarted(true); 
-                    setUser(coincidences);
+
+                    let UsuarioLogeado = {
+                        UserId: coincidences[0].UserId,
+                        UserName: coincidences[0].UserName,
+                        UserEmail: coincidences[0].UserEmail,
+                        UserTypeID: coincidences[0].UserTypeID,
+                    };
+                    
+                    localStorage.setItem('User', JSON.stringify(UsuarioLogeado));
+                    setUser(UsuarioLogeado);
+                    setErrorLogin('');
                     //Volver a la pantalla principal
                     setdisplayLogin(false);
                     setDisplayMainPage(true);
@@ -55,6 +60,21 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSe
         setdisplayLogin(false);
         setDisplayMainPage(true);
     }
+
+    useEffect(() => {
+        // Solicitud de usuarios
+        fetch('http://127.0.0.1:8000/api/users/')
+        .then(response => response.json())
+        .then(data => {
+            // Maneja la respuesta de la solicitud aquí
+            setUsers(data);
+        })
+        .catch(error => {
+                // Maneja los errores aquí
+                console.error('Error:', error);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[errorLogin])
 
     return (
     <div className='background-login'>
@@ -83,9 +103,9 @@ const Login = ({setdisplayCreateAccount,setdisplayLogin,setDisplayMainPage,setSe
                 </div>
                 <div className='flex-right'>
                     <select id="createAccountType">
-                        <option value='User'>Usuario</option>
-                        <option value='Journalist'>Periodista</option>
-                        <option value='Admin'>Admin</option>
+                        <option value='1'>Usuario</option>
+                        <option value='2'>Periodista</option>
+                        <option value='3'>Admin</option>
                     </select>
                     <span id='forgotPassword'>¿Has Olvidado Tu Contraseña?</span>
                 </div>
