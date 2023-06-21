@@ -24,6 +24,9 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
     const [typeStory, setTypeStory] = useState('Ninguna');
     const [valueSearch, setValueSearch] = useState('');
 
+    //API
+    const [weather, setWeather] = useState('');
+
     const activateLogin = () => {
         setDisplayMainPage(false);
         setdisplayLogin(true);
@@ -54,23 +57,28 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
         fetch('http://127.0.0.1:8000/api/noticias/')
             .then(response => response.json())
             .then(data => {
-                // Maneja la respuesta de la solicitud aquí
                 setPosts(data);
             })
             .catch(error => {
-                // Maneja los errores aquí
                 console.error('Error:', error);
         });
         fetch('http://127.0.0.1:8000/api/users/')
             .then(response => response.json())
             .then(data => {
-                // Maneja la respuesta de la solicitud aquí
                 setUsers(data);
             })
             .catch(error => {
-                // Maneja los errores aquí
                 console.error('Error:', error);
         });
+        fetch('https://api.openweathermap.org/data/2.5/weather?lat=-33.33024537923813&lon=-70.66482502171262&appid=af5ce896ad3777d70e601ec064ce7c3c')
+            .then(response => response.json())
+            .then(data => {
+                setWeather((data.main.temp - 273.15).toFixed(1));
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            
         // eslint-disable-next-line
     },[])
 
@@ -286,6 +294,9 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
         {/*Footer*/}
         <div className="footer">
             <span id='contactClick' onClick={activateContact}>Contacto</span>
+            <div className="apis">
+                <span id='weather'>Temperatura: <span id='temp'>{weather}</span></span>
+            </div>
         </div>
         {/*Footer*/}
     </div>

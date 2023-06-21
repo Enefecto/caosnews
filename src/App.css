@@ -290,6 +290,13 @@
 	color: var(--Beige);
 	border-bottom: 2px solid var(--Beige);
 }
+#weather{
+	color: white;
+}
+#temp{
+	color: var(--green);
+	font-weight: bold;
+}
 /* Contact */
 .conteiner-contact{
 	width: 100%;
