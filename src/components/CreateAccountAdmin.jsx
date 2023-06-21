@@ -15,7 +15,7 @@ const CreateAccountAdmin = () => {
             UserName: e.target.createAccountUser.value,
             UserEmail: e.target.createAccountEmail.value,
             UserPassword: e.target.createAccountPassword.value,
-            UserTypeID: 1
+            UserTypeID: parseInt(e.target.createAccountType.value)
         };
         
         if (
@@ -29,7 +29,8 @@ const CreateAccountAdmin = () => {
                 let coincidences = users.filter((user) => {
                     return user.UserEmail === tempUser.UserEmail;
                 });
-
+                
+                
                 if (coincidences.length === 0) {
                     fetch('http://127.0.0.1:8000/api/users/', {
                         method: 'POST',
@@ -41,6 +42,9 @@ const CreateAccountAdmin = () => {
 
                     setErrorLogin('');
                     setSuccessfulLogin('Cuenta Creada exitosamente');
+                    e.target.createAccountUser.value = '';
+                    e.target.createAccountEmail.value = '';
+                    e.target.createAccountPassword.value = '';
                 } else {
                     setErrorLogin('Este Correo Electronico Ya Esta En Uso.');
                     setSuccessfulLogin('');
@@ -100,9 +104,9 @@ const CreateAccountAdmin = () => {
                 </div>
                 <div className='flex-right'>
                     <select id="createAccountType" name='type'>
-                        <option value='User'>Usuario</option>
-                        <option value='Journalist'>Periodista</option>
-                        <option value='Admin'>Admin</option>
+                        <option value='1'>Usuario</option>
+                        <option value='2'>Periodista</option>
+                        <option value='3'>Admin</option>
                     </select>
                 </div>
                 <span className='error-message'>{errorLogin ? errorLogin : ''}</span>
