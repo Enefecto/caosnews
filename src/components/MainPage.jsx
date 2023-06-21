@@ -7,7 +7,7 @@ import fondo2 from '../assets/img/CienciaYTecnologia.jpg';
 import fondo3 from '../assets/img/Entretenimiento.jpg';
 import fondo4 from '../assets/img/Deporte.jpg';
 
-const MainPage = ({setSesionStarted,setDisplayMainPage,setdisplayLogin,sessionStarted,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin, setDisplayContactPage,user}) => {
+const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,sessionStarted,setDisplayAdminPage,setDisplayArticle,setDisplayForm,listJournalist,setListJournalist,posts,setPosts,setPostId,buttonAdmin,setButtonAdmin, setDisplayContactPage,user}) => {
 
     //Activar o desactivar botones
     const [buttonStory, setButtonStory] = useState(false);
@@ -41,6 +41,11 @@ const MainPage = ({setSesionStarted,setDisplayMainPage,setdisplayLogin,sessionSt
     }
 
     useEffect(() => {
+        let storage = JSON.parse(localStorage.getItem('User'));
+        if (storage){
+            setSesionStarted(true);
+            setUser(storage);
+        }
         fetch('http://127.0.0.1:8000/api/noticias/')
             .then(response => response.json())
             .then(data => {
@@ -65,10 +70,7 @@ const MainPage = ({setSesionStarted,setDisplayMainPage,setdisplayLogin,sessionSt
     },[])
 
     useEffect(() => {
-        let storage = JSON.parse(localStorage.getItem('User'));
-        if (storage){
-            setSesionStarted(true);
-        }
+        
         if (sessionStarted){
 
             if (user.UserTypeID === 1){

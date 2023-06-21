@@ -80,6 +80,7 @@ function App() {
                         setButtonAdmin={setButtonAdmin}
                         setDisplayContactPage={setDisplayContactPage}
                         user={user}
+                        setUser={setUser}
                         setSesionStarted={setSesionStarted}/>
         </>
         );
