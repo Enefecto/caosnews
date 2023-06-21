@@ -75,7 +75,7 @@ const FormJournalist = ({setDisplayMainPage,setDisplayForm,listJournalist}) => {
                 <select id='autor' name='autor'>
                     {
                     listJournalist ? listJournalist.map((jour) => (
-                        <option key={jour.id}>{jour.name}</option>
+                        <option key={jour.UserId}>{jour.UserName}</option>
                     ))
                     :
                     ''

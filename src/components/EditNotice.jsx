@@ -77,7 +77,7 @@ const EditNotice = ({setDisplayMainPage,listJournalist,setDisplayEditForm,idPost
                 <select id='autor' name='autor' value={editPost.author} onChange={e => setEditPost({...editPost, author: e.target.value})}>
                     {
                     listJournalist ? listJournalist.map((jour) => (
-                        <option key={jour.id}>{jour.name}</option>
+                        <option value={jour.UserName} key={jour.id}>{jour.UserName}</option>
                     ))
                     :
                     ''

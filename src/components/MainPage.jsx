@@ -14,10 +14,15 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
     
     //Post Disponibles
     const [availablePosts, setAvailablePosts] = useState([]);
+    const [postsFiltered ,setPostFiltered] = useState([]);
 
     //Usuarios
     const [users, setUsers] = useState([]);
 
+    //Filtros de noticias
+    const [JournalistFilter, setJournalistFilter] = useState('Anonimo');
+    const [typeStory, setTypeStory] = useState('Ninguna');
+    const [valueSearch, setValueSearch] = useState('');
 
     const activateLogin = () => {
         setDisplayMainPage(false);
@@ -90,6 +95,7 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
 
         if (posts){
             setAvailablePosts(posts.filter((post) => post.state));
+            setPostFiltered(posts.filter((post) => post.state));
         }
 
         //Setear Periodistas
@@ -100,7 +106,8 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
 
     },[posts,sessionStarted,setSesionStarted,setButtonAdmin,setListJournalist,setPosts,users,user])
 
-
+    
+    
     const getPostBackground = (type) => {
 
         switch (type) {
@@ -108,24 +115,56 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
                 return fondo0
             case 1:
                 return fondo1;
-            case 2:
+                case 2:
                 return fondo2;
-            case 3:
-                return fondo3;
+                case 3:
+                    return fondo3;
             case 4:
                 return fondo4;
-            default:
+                default:
                 return fondo0;
-        }
+            }
     }
-
+    
     const activateContact = () => {
         setDisplayMainPage(false);
         setDisplayContactPage(true);
     }
+    
+    const handleJournalistFilter = (e) => {
+        setJournalistFilter(e.target.value);
+    }
+    const handleTypeStoryFilter = (e) => {
+        setTypeStory(e.target.value);
+    }
+    
+    const handleSearch = (e) => {
+        setValueSearch(e.target.value);
+    }
+
+    useEffect(() => {
+        let filteredPosts = postsFiltered;
+
+        if (typeStory !== 'Ninguna') {
+            filteredPosts = filteredPosts.filter((post) => post.type === parseInt(typeStory));
+        }
+        
+        if (JournalistFilter !== 'Anonimo') {
+            filteredPosts = filteredPosts.filter((post) => post.author === JournalistFilter);
+        }
+        setAvailablePosts(filteredPosts);
+
+        if (valueSearch.trim() === ''){
+            setAvailablePosts(filteredPosts);
+        } else {
+            setAvailablePosts(filteredPosts.filter(post => post.title.includes(valueSearch)));
+        }
+
+        // eslint-disable-next-line
+    },[valueSearch,JournalistFilter,typeStory])
 
     return (
-    <div>
+        <div>
         {/* NavBar */}
         <nav className="navbar navbar-top">
             <div className="container-fluid">
@@ -197,16 +236,16 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
                         <circle cx="10" cy="10" r="7" />
                         <line x1="21" y1="21" x2="15" y2="15" />
                     </svg>
-                    <input id='search' placeholder='Buscar'/>
+                    <input id='search' placeholder='Buscar' onChange={handleSearch}/>
                 </div>
                 <div className='conteiner-filters'>
                     <div className='selects'>
                         <span>Periodista:</span>
-                        <select className='select'>
+                        <select className='select' onChange={handleJournalistFilter}>
                             <option>Anonimo</option>
                             {
                             listJournalist ? listJournalist.map((jour) => (
-                                <option key={jour.UserId}>{jour.UserName}</option>
+                                <option key={jour.UserId} >{jour.UserName}</option>
                             ))
                             :
                             ''
@@ -216,7 +255,7 @@ const MainPage = ({setUser,setSesionStarted,setDisplayMainPage,setdisplayLogin,s
                     </div>
                     <div className='selects'>
                         <span>Categoria:</span>
-                        <select className='select'>
+                        <select className='select' onChange={handleTypeStoryFilter}>
                             <option value='Ninguna'>Ninguna</option>
                             <option value='1'>Noticias Internacionales</option>
                             <option value='2'>Ciencia y Tecnología</option>
