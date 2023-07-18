@@ -1,1 +1,1 @@
-# Noticiero CaosNews hecho con React y Bootstrap.
+# Noticiero CaosNews hecho con React y Django
